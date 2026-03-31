@@ -1,0 +1,139 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.home {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #050a30 0%, #1c2b7f 100%);
+  color: white;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 2px 40px;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+
+.nav-center, 
+.Explore {
+ cursor: pointer;
+ font-weight: lighter;
+ font-size: larger;
+ font-family: sans-serif;
+}
+
+.Search{
+  padding: 0px 10px;
+  border-radius: 0px;
+
+}
+
+.Search
+.search-box{
+  padding-inline: 90px;
+  background: transparent;
+  color: white;
+  padding-left: 30px;
+  
+}
+
+
+.nav-center input {
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: none;
+  width: 250px;
+}
+
+.nav-right {
+  margin-left: 10px;
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+  
+  
+}
+
+.login-btn {
+  background: transparent;
+  font-size: 21px;
+  font-weight: lighter;
+}
+.login-btn:hover {
+  background: transparent;
+  color: inherit;
+}
+
+.signup-btn {
+  background: transparent;
+  font-size: 21px;
+  font-weight: lighter;
+  
+
+  
+
+}
+.login-btn:hover {
+  background: transparent;
+  color: inherit;
+}
+
+/* LAYOUT */
+.content {
+  display: flex;
+  padding: 20px 40px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 200px;
+  padding-bottom: 10px;
+}
+
+.sidebar p {
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 20px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  color: black;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-body span {
+  color: blue;
+  font-size: 12px;
+}

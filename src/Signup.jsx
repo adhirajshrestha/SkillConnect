@@ -12,35 +12,35 @@ const Signup = () => {
 
   //handle submit
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const res = await fetch("http://localhost:5000/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-        role
-      })
-    });
+    try {
+      const res = await fetch("http://localhost:5000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          role
+        })
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      alert("Signup successful");
-    } else {
-      alert(data.message);
+      if (res.ok) {
+        alert("Signup successful");
+      } else {
+        alert(data.message);
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert("Cannot connect to server ❌");
     }
-
-  } catch (err) {
-    console.error(err);
-    alert("Cannot connect to server ❌");
-  }
-};
+  };
 
   return (
     <div className="page-wrapper">
@@ -80,7 +80,7 @@ const Signup = () => {
             <form className="auth-form" onSubmit={handleSubmit}>
 
               <input
-              className="text1"
+                className="text1"
                 type="text"
                 placeholder="Enter your full name"
                 value={name}
@@ -106,7 +106,7 @@ const Signup = () => {
 
               {/* Optional: Role selection */}
               <select
-              className="options"
+                className="options"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
               >
@@ -114,7 +114,7 @@ const Signup = () => {
                 <option value="teacher">Teacher</option>
               </select>
 
-              <button type="submit" className="signup-btn">Sign Up</button>
+              <Link to="/App1"><button type="submit" className="signup-btn">Sign Up</button></Link>
             </form>
 
             <div className="divider">

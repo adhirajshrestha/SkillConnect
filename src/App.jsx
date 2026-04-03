@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
+import { Search as SearchIcon, Newspaper as NewspaperIcon, ChevronDown as ChevronDown } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
-const courses = [
-  { title: "CASEY NEISTAT", desc: "Learn the basics of starting your own business", img: "https://images.unsplash.com/photo-1511379938547-c1f69419868d" },
-  { title: "CASEY NEISTAT", desc: "AI annotation and Data Analysis as a beginner", img: "https://images.unsplash.com/photo-1552664730-d307ca884978" },
-  { title: "CASEY NEISTAT", desc: "One month course for beginners with a guitar", img: "https://images.unsplash.com/photo-1524594154908-edd7c16dfd1f" },
-  { title: "CASEY NEISTAT", desc: "Learn to code with HTML, CSS and JS as a beginner", img: "https://images.unsplash.com/photo-1584697964403-0f6b8f2e2f57" },
-  { title: "CASEY NEISTAT", desc: "professionalize your CV according to your style", img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e" },
-  { title: "CASEY NEISTAT", desc: "Learn the basics of Content Creation and Video Editing", img: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6" }
+
+const className = "boxes", courses = [
+  { title: "Casey Neistat", desc: "Learn the basics of starting your own business", img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e" },
+  { title: "Rodger Brown", desc: "AI annotation and Data Analysis as a beginner", img: "https://images.unsplash.com/photo-1552664730-d307ca884978" },
+  { title: "Cassie Jacobs", desc: "One month course for beginners with a guitar", img: "https://images.unsplash.com/photo-1511379938547-c1f69419868d" },
+  { title: "Razie Eve", desc: "Learn to code with HTML, CSS and JS as a beginner", img: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+  { title: "Peterson Holms", desc: "professionalize your CV according to your style", img: "https://images.unsplash.com/photo-1698047681432-006d2449c631?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+  { title: "Peter Nicolus", desc: "Learn the basics of Content Creation and Video Editing", img: "https://images.unsplash.com/photo-1611784728558-6c7d9b409cdf?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+  { title: "Harvey Spectrus", desc: "Become skilled at playing the Flute with just one tutorial", img: "https://images.unsplash.com/photo-1514213949578-58fe7b8ff146?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+  { title: "Amber Gray", desc: "Becoming a horticulturist is now much easier with beginner tutorials ", img: "https://images.unsplash.com/photo-1761963494903-0bde24a68994?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+  { title: "Tommy Hills", desc: "Becoming a Tattoo Artist is now much easier with my tutorial ", img: "https://images.unsplash.com/photo-1552627019-947c3789ffb5?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }
 ];
 
 const App = () => {
+  const navigate = useNavigate();
+  const [isExploreOpen, setIsExploreOpen] = useState(false);
+
+  const toggleExplore = () => {
+    setIsExploreOpen(!isExploreOpen);
+  };
+
   return (
     <div className="home">
 
@@ -19,13 +32,77 @@ const App = () => {
         <h2 className="logo">SkillConnect</h2>
 
         <div className="nav-center">
-          <span className="Explore">Explore ▼</span>
+          <div className="explore-container">
+            <span className={`Explore ${isExploreOpen ? 'active' : ''}`} onClick={toggleExplore}>
+              Explore <ChevronDown className={`ChevronDown ${isExploreOpen ? 'rotate' : ''}`} />
+            </span>
+
+            {isExploreOpen && (
+              <div className="explore-dropdown">
+                <div className="dropdown-column">
+                  <h4>Technology & Digital Skills</h4>
+                  <ul>
+                    <li>Web Development</li>
+                    <li>Mobile App Development</li>
+                    <li>Data Science & Analytics</li>
+                    <li>AI & Machine Learning</li>
+                    <li>Cybersecurity</li>
+                    <li>Cloud Computing</li>
+                    <li>UI / UX Design</li>
+                    <li className="view-all">View all</li>
+                  </ul>
+                </div>
+                <div className="dropdown-column">
+                  <h4>Creative & Design</h4>
+                  <ul>
+                    <li>Graphic Design</li>
+                    <li>Motion Graphics</li>
+                    <li>Video Editing</li>
+                    <li>Photography</li>
+                    <li>Illustration & Digital Art</li>
+                    <li>3D Design & Animation</li>
+                    <li>Branding & Visual Identity</li>
+                    <li className="view-all">View all</li>
+                  </ul>
+                </div>
+                <div className="dropdown-column">
+                  <h4>Academics & Education</h4>
+                  <ul>
+                    <li>Mathematics</li>
+                    <li>Science (Physics, Chemistry, Biology)</li>
+                    <li>Computer Science</li>
+                    <li>Engineering Basics</li>
+                    <li>Economics</li>
+                    <li>Exam Preparation</li>
+                    <li>Research & Writing</li>
+                    <li className="view-all">View all</li>
+                  </ul>
+                </div>
+                <div className="dropdown-column">
+                  <h4>Personal Growth</h4>
+                  <ul>
+                    <li>Communication Skills</li>
+                    <li>Public Speaking</li>
+                    <li>Leadership</li>
+                    <li>Time Management</li>
+                    <li>Critical Thinking</li>
+                    <li>Emotional Intelligence</li>
+                    <li>Career Development</li>
+                    <li className="view-all">View all</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="Search"><input type="text" className="search-box" placeholder="What's on your mind" /></div>
+        <div className="Search">
+          <SearchIcon className="SearchIcon" />
+          <input type="text" className="search-box" placeholder="What's on your mind" />
+        </div>
 
         <div className="nav-right">
-          <h1 className="login-btn">Log in</h1>
-           <h1 className="signup-btn">Signup</h1>
+          <Link to="/login"><h1 className="login-btn">Log in</h1></Link>
+          <Link to="/signup"><h1 className="signup-btn">Sign up</h1></Link>
         </div>
       </div>
 
@@ -33,29 +110,29 @@ const App = () => {
 
         {/* Sidebar */}
         <div className="sidebar">
-          <p>Music & instruments</p><br/>
-          <p>ART & Illustration</p><br/>
-          <p>Mathematics</p><br/>
-          <p>Film & Video</p><br/>
-          <p>Business & Marketing</p><br/>
-          <p>Photography</p><br/>
-          <p>Productivity</p><br/>
-          <p>Home & Lifestyles</p><br/>
+          <p>Music & instruments</p><br />
+          <p>ART & Illustration</p><br />
+          <p>Mathematics</p><br />
+          <p>Film & Video</p><br />
+          <p>Business & Marketing</p><br />
+          <p>Photography</p><br />
+          <p>Productivity</p><br />
+          <p>Home & Lifestyles</p><br />
           <p>Plants and Care</p>
         </div>
 
         {/* Main */}
         <div className="main">
-          <h2>Music & instruments</h2>
+          <h2>Music & instruments</h2><br />
 
           <div className="cards">
             {courses.map((course, index) => (
               <div className="card" key={index}>
                 <img src={course.img} alt="" />
                 <div className="card-body">
-                  <h4>{course.title}</h4><br/>
-                  <p>{course.desc}</p><br/>
-                  <span>📘 End the course with a certificate</span>
+                  <h4>{course.title}</h4><br />
+                  <p>{course.desc}</p><br />
+                  <span><NewspaperIcon className="NewspaperIcon" /> End the course with a certificate</span>
                 </div>
               </div>
             ))}

@@ -8,7 +8,8 @@
   padding: 0;
 }
 
-body, html {
+body,
+html {
   background: linear-gradient(135deg, #050a30 0%, #1c2b7f 100%);
   font-family: 'Inter', sans-serif;
 }
@@ -17,13 +18,14 @@ body, html {
   The linear-gradient creates the deep blue effect.
 */
 .login-page-container {
-  
+
   min-height: 100vh;
   width: 100%;
   color: #ffffff;
   display: flex;
   flex-direction: column;
-  padding: 0 8%; /* Add horizontal padding for content */
+  padding: 0 8%;
+  /* Add horizontal padding for content */
   background-attachment: fixed;
 }
 
@@ -57,7 +59,8 @@ body, html {
 
 /* --- Main Content Layout --- */
 .main-content {
-  flex: 1; /* Fills available space */
+  flex: 1;
+  /* Fills available space */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -78,7 +81,8 @@ body, html {
 }
 
 .hero-highlight {
-  color: #93c5fd; /* A lighter blue for emphasis */
+  color: #93c5fd;
+  /* A lighter blue for emphasis */
 }
 
 .hero-description {
@@ -102,18 +106,22 @@ body, html {
 .avatar {
   width: 36px;
   height: 36px;
-  background-color: #d1d5db; /* Placeholder gray */
+  background-color: #d1d5db;
+  /* Placeholder gray */
   border-radius: 50%;
   border: 2px solid #050a30;
   margin-left: -8px;
 }
 
-.avatar:first-child { margin-left: 0; }
+.avatar:first-child {
+  margin-left: 0;
+}
 
 .avatar-counter {
   width: 36px;
   height: 36px;
-  background-color: #10b981; /* Green color */
+  background-color: #10b981;
+  /* Green color */
   color: white;
   font-size: 12px;
   font-weight: 600;
@@ -131,8 +139,14 @@ body, html {
   gap: 8px;
 }
 
-.stars { color: #fbbf24; /* Gold for stars */ }
-.rating-text { font-weight: 500; }
+.stars {
+  color: #fbbf24;
+  /* Gold for stars */
+}
+
+.rating-text {
+  font-weight: 500;
+}
 
 /* --- Right Login Card Section --- */
 .login-card-section {
@@ -143,7 +157,8 @@ body, html {
 
 .login-card {
   background-color: #ffffff;
-  color: #1f2937; /* Dark gray text */
+  color: #1f2937;
+  /* Dark gray text */
   padding: 48px;
   border-radius: 24px;
   width: 100%;
@@ -164,7 +179,9 @@ body, html {
 }
 
 /* --- Form Styles --- */
-.form-group { margin-bottom: 24px; }
+.form-group {
+  margin-bottom: 24px;
+}
 
 .form-group label {
   display: block;
@@ -180,7 +197,8 @@ body, html {
 }
 
 .forgot-password {
-  color: #2563eb; /* Blue link color */
+  color: #2563eb;
+  /* Blue link color */
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
@@ -204,8 +222,9 @@ input:focus {
 .login-btn {
   width: 100%;
   padding: 14px;
-  background-color: #050a30; /* Dark blue from background */
- 
+  background-color: #050a30;
+  /* Dark blue from background */
+
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -248,8 +267,27 @@ input:focus {
     gap: 60px;
   }
 
-  .hero-section { max-width: 100%; }
-  .rating-wrapper { justify-content: center; }
-  .login-card-section { justify-content: center; width: 100%; }
-  .login-card { text-align: left; }
+  .hero-section {
+    max-width: 100%;
+  }
+
+  .rating-wrapper {
+    justify-content: center;
+  }
+
+  .login-card-section {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .login-card {
+    text-align: left;
+  }
+}
+
+.NoAcc {
+  text-align: center;
+  margin-top: 24px;
+  color: #6b7280;
+  font-size: 14px;
 }

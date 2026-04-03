@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,8 +30,8 @@ const Login = () => {
         // store token
         localStorage.setItem("token", data.token);
 
-        // ✅ redirect to App page
-        navigate("/App");
+        // ✅ redirect to App1 page
+        navigate("/App1");
       } else {
         alert(data.message);
       }

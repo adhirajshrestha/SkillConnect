@@ -51,7 +51,7 @@ body {
     transition: all 0.3s ease;
     cursor: pointer;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 21px;
 }
 
 .Explore.active {
@@ -192,13 +192,11 @@ body {
     color: inherit;
 }
 
-.signup-btn {
-    background: transparent;
-    white-space: nowrap;
-    font-size: 20px;
-    font-weight: 400;
+.CircleUserIcon {
+    width: 30px;
+    height: 30px;
     cursor: pointer;
-    margin: 0;
+    margin-left: 60px;
 }
 
 

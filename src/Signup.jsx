@@ -1,9 +1,12 @@
 
 import React, { useState } from "react";
 import "./Signup.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+
 
 const Signup = () => {
+  const navigate = useNavigate();
   // state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,6 +35,7 @@ const Signup = () => {
 
       if (res.ok) {
         alert("Signup successful");
+        navigate("/login"); // Usually redirect to login after manual signup
       } else {
         alert(data.message);
       }
@@ -40,6 +44,16 @@ const Signup = () => {
       console.error(err);
       alert("Cannot connect to server ❌");
     }
+  };
+
+  const handleGoogleSuccess = (credentialResponse) => {
+    console.log("Google Login Success:", credentialResponse);
+    navigate("/App1"); // Redirect directly as requested
+  };
+
+  const handleGoogleError = () => {
+    console.log("Login Failed");
+    alert("Google Login Failed ❌");
   };
 
   return (
@@ -114,20 +128,24 @@ const Signup = () => {
                 <option value="teacher">Teacher</option>
               </select>
 
-              <Link to="/App1"><button type="submit" className="signup-btn">Sign Up</button></Link>
+              <button type="submit" className="signup-btn">Sign Up</button>
             </form>
 
             <div className="divider">
               <span>OR CONTINUE WITH</span>
             </div>
 
-            <button className="google-btn">
-              <img
-                src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png"
-                alt="Google"
+            <div className="google-login-container">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                useOneTap
+                theme="outline"
+                size="large"
+                shape="pill"
+                width="350px"
               />
-              Google
-            </button>
+            </div>
 
             <div className="legal-links">
               <a href="#">Terms of Service</a>

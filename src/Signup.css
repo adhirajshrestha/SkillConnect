@@ -176,7 +176,16 @@ input {
   color: #999;
 }
 
+.google-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
 .google-btn {
+  display: none; /* Hide old button */
   width: 100%;
   background: white;
   border: 1px solid #ddd;
@@ -188,10 +197,6 @@ input {
   gap: 10px;
   cursor: pointer;
   font-weight: 600;
-}
-
-.google-btn img {
-  width: 18px;
 }
 
 .legal-links {

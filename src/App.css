@@ -51,7 +51,7 @@ body {
   transition: all 0.3s ease;
   cursor: pointer;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 21px;
 }
 
 .Explore.active {

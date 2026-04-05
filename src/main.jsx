@@ -8,6 +8,8 @@ import Login from "./Login";
 import App from "./App";
 import App1 from "./App1";
 import Profile from "./Profile";
+import TeacherProfile from "./TeacherProfile";
+import AppTeacher from "./AppTeacher";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,13 +17,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <Routes>
           {/* Default page → Login */}
-          <Route path="/" element={<Navigate to="/profile" />} />
+          <Route path="/" element={<Navigate to="/App" />} />
 
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/App" element={<App />} />
           <Route path="/App1" element={<App1 />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/TeacherProfile" element={<TeacherProfile />} />
+          <Route path="/AppTeacher" element={<AppTeacher />} />
         </Routes>
       </BrowserRouter>
     </GoogleOAuthProvider>

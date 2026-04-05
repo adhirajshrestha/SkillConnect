@@ -30,8 +30,12 @@ const Login = () => {
         // store token
         localStorage.setItem("token", data.token);
 
-        // ✅ redirect to App1 page
-        navigate("/App1");
+        // redirect based on role
+        if (data.user && data.user.role === "teacher") {
+          navigate("/AppTeacher");
+        } else {
+          navigate("/App1");
+        }
       } else {
         alert(data.message);
       }

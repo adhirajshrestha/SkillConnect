@@ -4,7 +4,7 @@ import "./App1.css"; // Reuse navbar styles
 import { Search as SearchIcon, Newspaper as NewspaperIcon, ChevronDown as ChevronDown, CircleUserRound as CircleUserIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Profile = () => {
+const TeacherProfile = () => {
     const navigate = useNavigate();
     const [isExploreOpen, setIsExploreOpen] = useState(false);
     const [activeTab, setActiveTab] = useState("Profile");
@@ -243,10 +243,10 @@ const Profile = () => {
                             Profile
                         </span>
                         <span
-                            className={`tab-item ${activeTab === "Certificates" ? "active" : ""}`}
-                            onClick={() => setActiveTab("Certificates")}
+                            className={`tab-item ${activeTab === "Uploads" ? "active" : ""}`}
+                            onClick={() => setActiveTab("Uploads")}
                         >
-                            Certificates
+                            Uploads
                         </span>
                     </div>
                     <div className="tabs-divider"></div>
@@ -257,7 +257,10 @@ const Profile = () => {
                     {activeTab === "Profile" ? (
                         <p className="fade-in">Hi! My name is Adhiraj Shrestha.</p>
                     ) : (
-                        <p className="fade-in">No certificates to show yet.</p>
+                        <div className="fade-in" >
+                            <p>You have not uploaded anything yet !!</p><br />
+                            <button className="action-btn">Upload now</button>
+                        </div>
                     )}
                 </div>
             </div>
@@ -265,4 +268,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default TeacherProfile;

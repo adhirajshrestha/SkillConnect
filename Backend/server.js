@@ -8,24 +8,24 @@ require("dotenv").config();
 const User = require("./models/User");
 //  AUTH MIDDLEWARE 
 const auth = (req, res, next) => {
-  const token = req.headers.authorization;
+    const token = req.headers.authorization;
 
-  if (!token) return res.status(401).json({ message: "No token" });
+    if (!token) return res.status(401).json({ message: "No token" });
 
-  try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = verified;
-    next();
-  } catch {
-    res.status(401).json({ message: "Invalid token" });
-  }
+    try {
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = verified;
+        next();
+    } catch {
+        res.status(401).json({ message: "Invalid token" });
+    }
 };
 
 const app = express();
 
 // MIDDLEWARE (must come first)
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 
 // DATABASE CONNECTION
 mongoose.connect(process.env.MONGO_URI)
@@ -109,6 +109,26 @@ app.get("/profile", auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
         res.json(user);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// UPDATE PROFILE ROUTE
+app.put("/profile", auth, async (req, res) => {
+    try {
+        const { avatar } = req.body;
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (avatar !== undefined) user.avatar = avatar;
+
+        await user.save();
+        res.json({ message: "Profile updated successfully", avatar: user.avatar });
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

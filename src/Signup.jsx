@@ -35,7 +35,11 @@ const Signup = () => {
 
       if (res.ok) {
         alert("Signup successful");
-        navigate("/login"); // Usually redirect to login after manual signup
+        if (role === "teacher") {
+          navigate("/AppTeacher");
+        } else {
+          navigate("/App1");
+        }
       } else {
         alert(data.message);
       }
@@ -48,7 +52,11 @@ const Signup = () => {
 
   const handleGoogleSuccess = (credentialResponse) => {
     console.log("Google Login Success:", credentialResponse);
-    navigate("/App1"); // Redirect directly as requested
+    if (role === "teacher") {
+      navigate("/AppTeacher");
+    } else {
+      navigate("/App1");
+    }
   };
 
   const handleGoogleError = () => {

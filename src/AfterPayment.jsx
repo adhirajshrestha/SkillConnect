@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import "./App1.css";
-import { Search as SearchIcon, Newspaper as NewspaperIcon, ChevronDown as ChevronDown, CircleUserRound as CircleUserIcon } from "lucide-react";
+import "./AfterPayment.css";
+import { Search as SearchIcon, Newspaper as NewspaperIcon, ChevronDown as ChevronDown, UserRound as UserIcon, Settings as SettingsIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 
-const className = "boxes", courses = [
-    { title: "Adhiraj", desc: "Learn the basics of starting your own business", img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e" },
+const courses = [
+    { title: "Casey Neistat", desc: "Learn the basics of starting your own business", img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e" },
     { title: "Rodger Brown", desc: "AI annotation and Data Analysis as a beginner", img: "https://images.unsplash.com/photo-1552664730-d307ca884978" },
     { title: "Cassie Jacobs", desc: "One month course for beginners with a guitar", img: "https://images.unsplash.com/photo-1511379938547-c1f69419868d" },
     { title: "Razie Eve", desc: "Learn to code with HTML, CSS and JS as a beginner", img: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
@@ -16,7 +16,7 @@ const className = "boxes", courses = [
     { title: "Tommy Hills", desc: "Becoming a Tattoo Artist is now much easier with my tutorial ", img: "https://images.unsplash.com/photo-1552627019-947c3789ffb5?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }
 ];
 
-const App1 = () => {
+const AfterPayment = () => {
     const navigate = useNavigate();
     const [isExploreOpen, setIsExploreOpen] = useState(false);
 
@@ -29,7 +29,7 @@ const App1 = () => {
 
             {/* Navbar */}
             <div className="navbar">
-                <Link to="/App"> <h2 className="logo" > SkillConnect </h2> </Link>
+                <Link to="/App1"> <h2 className="logo" > SkillConnect </h2> </Link>
 
                 <div className="nav-center">
                     <div className="explore-container">
@@ -101,8 +101,13 @@ const App1 = () => {
                 </div>
 
                 <div className="nav-right">
-                    <Link to="/"><span className="Getstarted-btn">Get started</span></Link>
-                    <Link to="/profile"><CircleUserIcon className="CircleUserIcon" /></Link>
+                    <span className="my-classes">My Classes</span>
+                    <SettingsIcon className="SettingsIcon" />
+                    <Link to="/profile">
+                        <div className="user-icon-container">
+                            <UserIcon className="UserIcon" />
+                        </div>
+                    </Link>
                 </div>
             </div>
 
@@ -144,4 +149,4 @@ const App1 = () => {
     );
 };
 
-export default App1;
+export default AfterPayment;

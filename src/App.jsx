@@ -123,7 +123,7 @@ const App = () => {
 
         {/* Main */}
         <div className="main">
-          <h2>Music & instruments</h2><br />
+          <h2>Popular Lessons</h2><br />
 
           <div className="cards">
             {courses.map((course, index) => (

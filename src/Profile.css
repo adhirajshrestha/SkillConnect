@@ -76,6 +76,14 @@
     transition: color 0.3s ease;
 }
 
+.CircleUserIcon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-left: 60px;
+}
+
+
 .profile-status:hover {
     color: white;
 }

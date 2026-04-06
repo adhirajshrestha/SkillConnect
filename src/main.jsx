@@ -10,6 +10,9 @@ import App1 from "./App1";
 import Profile from "./Profile";
 import TeacherProfile from "./TeacherProfile";
 import AppTeacher from "./AppTeacher";
+import Payment from "./Payment";
+import AfterPayment from "./AfterPayment";
+import Video from "./Video";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -17,7 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <Routes>
           {/* Default page → Login */}
-          <Route path="/" element={<Navigate to="/App" />} />
+          <Route path="/" element={<Navigate to="/Payment" />} />
 
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
@@ -26,6 +29,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/profile" element={<Profile />} />
           <Route path="/TeacherProfile" element={<TeacherProfile />} />
           <Route path="/AppTeacher" element={<AppTeacher />} />
+          <Route path="/Payment" element={<Payment />} />
+          <Route path="/AfterPayment" element={<AfterPayment />} />
+          <Route path="/Video" element={<Video />} />
         </Routes>
       </BrowserRouter>
     </GoogleOAuthProvider>

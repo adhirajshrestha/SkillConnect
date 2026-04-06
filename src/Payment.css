@@ -1,0 +1,345 @@
+/* Import global styles or fonts if needed */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.payment-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #050a30 0%, #1c2b7f 100%);
+    color: white;
+}
+
+/* NAVBAR (Copied from App1.css and adapted) */
+.navbar {
+    display: flex;
+    align-items: center;
+    padding: 15px 40px;
+    justify-content: space-between;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 30px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.nav-center {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.explore-container {
+    position: relative;
+}
+
+.Explore {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.Explore.active {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.ChevronDown {
+    transition: transform 0.3s ease;
+}
+
+.ChevronDown.rotate {
+    transform: rotate(180deg);
+}
+
+.explore-dropdown {
+    position: absolute;
+    top: 55px;
+    left: -200px;
+    width: 1000px;
+    background-color: #f9fdf2;
+    border-radius: 16px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+    z-index: 2000;
+    color: #1f2937;
+    text-align: left;
+}
+
+.dropdown-column h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #111827;
+}
+
+.dropdown-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-column li {
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: #4b5563;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.dropdown-column li:hover {
+    color: #111827;
+}
+
+.Search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    padding: 5px 15px;
+    transition: all 0.3s ease;
+    width: 250px;
+}
+
+.search-box {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 8px 10px;
+    width: 100%;
+    outline: none;
+    font-size: 14px;
+}
+
+.SearchIcon {
+    color: rgba(255, 255, 255, 0.7);
+    flex-shrink: 0;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.Getstarted-btn {
+    white-space: nowrap;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.CircleUserIcon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
+/* PAYMENT CONTENT */
+.payment-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 40px;
+}
+
+.payment-card {
+    background-color: #d1d1d1;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 1000px;
+    padding: 60px;
+    display: flex;
+    gap: 60px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    color: #000;
+}
+
+/* LEFT SECTION */
+.payment-left {
+    flex: 1.2;
+}
+
+.payment-left h2 {
+    font-size: 36px;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #1a1a1a;
+}
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.payment-input {
+    width: 100%;
+    padding: 16px 20px;
+    background-color: #c4c4c4;
+    border: 1.5px solid #a0a0a0;
+    border-radius: 12px;
+    font-size: 18px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.payment-input::placeholder {
+    color: #7a7a7a;
+    font-weight: 600;
+}
+
+.payment-input:focus {
+    border-color: #4b5eaa;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.input-icon {
+    position: absolute;
+    right: 20px;
+    color: #333;
+}
+
+/* SEPARATOR */
+.separator-container {
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.line {
+    flex: 1;
+    height: 1px;
+    background-color: #a0a0a0;
+}
+
+.or-text {
+    margin: 0 15px;
+    font-weight: 700;
+    font-size: 18px;
+    color: #1a1a1a;
+}
+
+/* ESEWA LOGO */
+.esewa-container {
+    display: flex;
+    justify-content: center;
+}
+
+.esewa-btn {
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 8px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.esewa-btn:hover {
+    transform: scale(1.05);
+    background-color: #45a049;
+}
+
+.esewa-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+/* RIGHT SECTION */
+.payment-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-right h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.summary-desc {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+
+.start-journey-btn {
+    margin-top: auto;
+    background-color: #4b5eaa;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.start-journey-btn:hover {
+    background-color: #3f4e8e;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
+    .payment-card {
+        flex-direction: column;
+        padding: 40px;
+    }
+    
+    .explore-dropdown {
+        width: 90vw;
+        left: -10vw;
+        grid-template-columns: 1fr 1fr;
+    }
+}

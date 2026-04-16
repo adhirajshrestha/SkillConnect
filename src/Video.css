@@ -213,8 +213,39 @@ body {
     .video-content {
         padding: 20px;
     }
-    
+
     .video-player-wrapper {
         aspect-ratio: 16/9;
     }
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 24px;
+    background: #050a30;
+    color: white;
+}
+
+.no-video {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #050a30;
+    color: white;
+    text-align: center;
+}
+
+.no-video h2 {
+    margin-bottom: 20px;
+}
+
+.no-video a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: bold;
 }

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./App1.css";
-import { Search as SearchIcon, Newspaper as NewspaperIcon, ChevronDown as ChevronDown, CircleUserRound as CircleUserIcon } from "lucide-react";
+import { Newspaper as NewspaperIcon, ChevronDown as ChevronDown, CircleUserRound as CircleUserIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import SearchBar from "./components/SearchBar";
 
 
 const className = "boxes", courses = [
@@ -95,10 +96,7 @@ const App1 = () => {
                         )}
                     </div>
                 </div>
-                <div className="Search">
-                    <SearchIcon className="SearchIcon" />
-                    <input type="text" className="search-box" placeholder="What's on your mind" />
-                </div>
+                <SearchBar />
 
                 <div className="nav-right">
                     <Link to="/Payment"><span className="Getstarted-btn">Get started</span></Link>
@@ -110,15 +108,27 @@ const App1 = () => {
 
                 {/* Sidebar */}
                 <div className="sidebar">
-                    <p>Music & instruments</p><br />
-                    <p>ART & Illustration</p><br />
-                    <p>Mathematics</p><br />
-                    <p>Film & Video</p><br />
-                    <p>Business & Marketing</p><br />
-                    <p>Photography</p><br />
-                    <p>Productivity</p><br />
-                    <p>Home & Lifestyles</p><br />
-                    <p>Plants and Care</p>
+                    {[
+                        "Music & instruments",
+                        "ART & Illustration",
+                        "Mathematics",
+                        "Film & Video",
+                        "Business & Marketing",
+                        "Photography",
+                        "Productivity",
+                        "Home & Lifestyles",
+                        "Plants and Care"
+                    ].map((cat) => (
+                        <React.Fragment key={cat}>
+                            <Link 
+                                to={`/category/${cat.toLowerCase().replace(/ & /g, "-and-").replace(/ /g, "-")}`}
+                                style={{ textDecoration: 'none', color: 'inherit' }}
+                            >
+                                <p>{cat}</p>
+                            </Link>
+                            <br />
+                        </React.Fragment>
+                    ))}
                 </div>
 
                 {/* Main */}

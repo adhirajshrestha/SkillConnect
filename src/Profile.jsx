@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Profile.css";
 import "./App1.css"; // Reuse navbar styles
-import { Search as SearchIcon, Newspaper as NewspaperIcon, ChevronDown as ChevronDown, CircleUserRound as CircleUserIcon } from "lucide-react";
+import { Newspaper as NewspaperIcon, ChevronDown as ChevronDown, CircleUserRound as CircleUserIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import SearchBar from "./components/SearchBar";
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -178,10 +179,7 @@ const Profile = () => {
                         )}
                     </div>
                 </div>
-                <div className="Search">
-                    <SearchIcon className="SearchIcon" />
-                    <input type="text" className="search-box" placeholder="What's on your mind" />
-                </div>
+                <SearchBar />
 
                 <div className="nav-right">
                     <Link to="/"><span className="Getstarted-btn">Get started</span></Link>

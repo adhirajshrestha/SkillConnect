@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Profile.css";
 import "./App1.css"; // Reuse navbar styles
-import { Search as SearchIcon, Newspaper as NewspaperIcon, ChevronDown as ChevronDown, CircleUserRound as CircleUserIcon } from "lucide-react";
+import { Newspaper as NewspaperIcon, ChevronDown as ChevronDown, CircleUserRound as CircleUserIcon, PlayCircle as PlayIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import SearchBar from "./components/SearchBar";
+import { uploadVideo, getVideosByUser } from "./services/videoService";
 
 const TeacherProfile = () => {
     const navigate = useNavigate();
@@ -12,7 +14,12 @@ const TeacherProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [avatarImage, setAvatarImage] = useState(null);
     const [userName, setUserName] = useState("User");
+    const [userId, setUserId] = useState(null);
+    const [userVideos, setUserVideos] = useState([]);
+    const [isUploading, setIsUploading] = useState(false);
+
     const fileInputRef = useRef(null);
+    const videoInputRef = useRef(null);
 
     // Load data from Backend on mount
     useEffect(() => {
@@ -24,13 +31,22 @@ const TeacherProfile = () => {
                 const res = await fetch("http://localhost:5000/profile", {
                     method: "GET",
                     headers: {
-                        "Authorization": token
+                        "Authorization": `Bearer ${token}`
                     }
                 });
                 const data = await res.json();
                 if (res.ok) {
                     if (data.avatar) setAvatarImage(data.avatar);
                     if (data.name) setUserName(data.name);
+                    if (data._id) {
+                        setUserId(data._id);
+                        // Fetch user videos
+                        console.log("Fetching videos for user:", data._id);
+                        const videos = await getVideosByUser(data._id);
+                        setUserVideos(videos);
+                    }
+                } else {
+                    console.error("Profile fetch failed:", data.message);
                 }
             } catch (err) {
                 console.error("Failed to fetch profile:", err);
@@ -50,6 +66,38 @@ const TeacherProfile = () => {
         fileInputRef.current.click();
     };
 
+    const handleVideoClick = () => {
+        videoInputRef.current.click();
+    };
+
+    const handleVideoUpload = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const title = prompt("Enter video title:", file.name);
+        if (!title) return;
+
+        const description = prompt("Enter video description (optional):", "");
+
+        const formData = new FormData();
+        formData.append("video", file);
+        formData.append("title", title);
+        formData.append("description", description);
+
+        setIsUploading(true);
+        try {
+            const result = await uploadVideo(formData);
+            alert("Video uploaded successfully!");
+            setUserVideos([...userVideos, result.video]);
+            setActiveTab("Uploads");
+        } catch (err) {
+            console.error("Upload failed:", err);
+            alert("Failed to upload video: " + (err.response?.data?.message || err.message));
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -67,7 +115,7 @@ const TeacherProfile = () => {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": token
+                            "Authorization": `Bearer ${token}`
                         },
                         body: JSON.stringify({ avatar: base64String })
                     });
@@ -109,6 +157,14 @@ const TeacherProfile = () => {
 
     return (
         <div className="profile-page">
+            {/* Hidden Video Input */}
+            <input
+                type="file"
+                ref={videoInputRef}
+                onChange={handleVideoUpload}
+                accept="video/*"
+                style={{ display: "none" }}
+            />
 
             {/* Exact Navbar from App1.jsx */}
             <div className="navbar">
@@ -178,10 +234,7 @@ const TeacherProfile = () => {
                         )}
                     </div>
                 </div>
-                <div className="Search">
-                    <SearchIcon className="SearchIcon" />
-                    <input type="text" className="search-box" placeholder="What's on your mind" />
-                </div>
+                <SearchBar />
 
                 <div className="nav-right">
                     <Link to="/"><span className="Getstarted-btn">Get started</span></Link>
@@ -229,7 +282,9 @@ const TeacherProfile = () => {
 
                     <div className="profile-actions-right">
                         <button className="action-btn" onClick={() => navigate("/App")}>Log out</button>
-                        <button className="action-btn">Edit</button>
+                        <button className="action-btn" onClick={handleVideoClick} disabled={isUploading}>
+                            {isUploading ? "Uploading..." : "Upload Video"}
+                        </button>
                     </div>
                 </div>
 
@@ -258,8 +313,36 @@ const TeacherProfile = () => {
                         <p className="fade-in">Hi! My name is Adhiraj Shrestha.</p>
                     ) : (
                         <div className="fade-in" >
-                            <p>You have not uploaded anything yet !!</p><br />
-                            <button className="action-btn">Upload now</button>
+                            <div className="uploads-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                                <h3>Videos ({userVideos.length})</h3>
+
+                            </div>
+
+                            {userVideos.length === 0 ? (
+                                <p style={{ textAlign: 'center', marginTop: '40px', color: 'rgba(255,255,255,0.5)' }}>
+                                    You have not uploaded anything yet !!
+                                </p>
+                            ) : (
+                                <div className="video-list">
+                                    <div className="video-grid">
+                                        {userVideos.map((video) => (
+                                            <div
+                                                key={video._id}
+                                                className="video-item"
+                                                onClick={() => navigate(`/video/${video._id}`)}
+                                            >
+                                                <div className="video-thumbnail-placeholder">
+                                                    <PlayIcon size={40} color="white" />
+                                                </div>
+                                                <div className="video-item-info">
+                                                    <h4>{video.title}</h4>
+                                                    <p>{new Date(video.createdAt).toLocaleDateString()}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
@@ -267,5 +350,6 @@ const TeacherProfile = () => {
         </div>
     );
 };
+
 
 export default TeacherProfile;

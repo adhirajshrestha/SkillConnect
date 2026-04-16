@@ -216,3 +216,55 @@
         justify-content: center;
     }
 }
+
+/* Video List Styles */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.video-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.video-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.video-thumbnail-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(45deg, #1c2b7f, #050a30);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-item-info {
+    padding: 15px;
+}
+
+.video-item-info h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.video-item-info p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+}

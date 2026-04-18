@@ -16,6 +16,10 @@ const videoSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    category: {
+        type: String,
+        required: true
+    },
     uploadedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

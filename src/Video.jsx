@@ -50,7 +50,7 @@ const Video = () => {
         <div className="video-page">
             {/* Navbar (Based on App1.jsx) */}
             <div className="navbar">
-                <Link to="/App1"> <h2 className="logo"> SkillConnect </h2> </Link>
+                <Link to="/AppTeacher"> <h2 className="logo"> SkillConnect </h2> </Link>
 
                 <div className="nav-center">
                     <div className="explore-container">
@@ -144,6 +144,7 @@ const Video = () => {
                 </div>
 
                 <div className="video-info">
+                    <span className="video-category-badge">{videoData.category}</span>
                     <h1 className="video-title">{videoData.title}</h1>
                     <p className="video-desc">{videoData.description || videoData.desc}</p>
                 </div>

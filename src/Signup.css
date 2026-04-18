@@ -140,6 +140,7 @@ input {
   border-radius: 25px;
   font-size: 14px;
   outline: none;
+  color: black !important;
 }
 
 .options{

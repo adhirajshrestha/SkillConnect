@@ -5,6 +5,7 @@ import { Newspaper as NewspaperIcon, ChevronDown as ChevronDown, CircleUserRound
 import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "./components/SearchBar";
 import { uploadVideo, getVideosByUser } from "./services/videoService";
+import { CATEGORIES } from "./constants/categories";
 
 const TeacherProfile = () => {
     const navigate = useNavigate();
@@ -17,6 +18,13 @@ const TeacherProfile = () => {
     const [userId, setUserId] = useState(null);
     const [userVideos, setUserVideos] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
+    const [showUploadModal, setShowUploadModal] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [uploadDetails, setUploadDetails] = useState({
+        title: "",
+        description: "",
+        category: ""
+    });
 
     const fileInputRef = useRef(null);
     const videoInputRef = useRef(null);
@@ -74,17 +82,27 @@ const TeacherProfile = () => {
         const file = event.target.files[0];
         if (!file) return;
 
-        const title = prompt("Enter video title:", file.name);
-        if (!title) return;
+        setSelectedFile(file);
+        setUploadDetails({
+            title: file.name.split('.')[0], // Default title to filename
+            description: "",
+            category: "Web Development" // Default category
+        });
+        setShowUploadModal(true);
+    };
 
-        const description = prompt("Enter video description (optional):", "");
+    const handleConfirmUpload = async () => {
+        if (!selectedFile) return;
 
         const formData = new FormData();
-        formData.append("video", file);
-        formData.append("title", title);
-        formData.append("description", description);
+        formData.append("video", selectedFile);
+        formData.append("title", uploadDetails.title);
+        formData.append("description", uploadDetails.description);
+        formData.append("category", uploadDetails.category);
 
         setIsUploading(true);
+        setShowUploadModal(false);
+
         try {
             const result = await uploadVideo(formData);
             alert("Video uploaded successfully!");
@@ -95,6 +113,7 @@ const TeacherProfile = () => {
             alert("Failed to upload video: " + (err.response?.data?.message || err.message));
         } finally {
             setIsUploading(false);
+            setSelectedFile(null);
         }
     };
 
@@ -155,6 +174,12 @@ const TeacherProfile = () => {
         setIsExploreOpen(!isExploreOpen);
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("profileStatus");
+        navigate("/login");
+    };
+
     return (
         <div className="profile-page">
             {/* Hidden Video Input */}
@@ -168,7 +193,7 @@ const TeacherProfile = () => {
 
             {/* Exact Navbar from App1.jsx */}
             <div className="navbar">
-                <Link to="/App1"> <h2 className="logo" > SkillConnect </h2> </Link>
+                <Link to="/AppTeacher"> <h2 className="logo" > SkillConnect </h2> </Link>
 
                 <div className="nav-center">
                     <div className="explore-container">
@@ -238,7 +263,7 @@ const TeacherProfile = () => {
 
                 <div className="nav-right">
                     <Link to="/"><span className="Getstarted-btn">Get started</span></Link>
-                    <Link to="/profile"><CircleUserIcon className="CircleUserIcon" /></Link>
+                    <Link to="/TeacherProfile"><CircleUserIcon className="CircleUserIcon" /></Link>
                 </div>
             </div>
 
@@ -281,7 +306,7 @@ const TeacherProfile = () => {
                     </div>
 
                     <div className="profile-actions-right">
-                        <button className="action-btn" onClick={() => navigate("/App")}>Log out</button>
+                        <button className="action-btn" onClick={handleLogout}>Log out</button>
                         <button className="action-btn" onClick={handleVideoClick} disabled={isUploading}>
                             {isUploading ? "Uploading..." : "Upload Video"}
                         </button>
@@ -310,7 +335,7 @@ const TeacherProfile = () => {
                 {/* Content Section */}
                 <div className="profile-content">
                     {activeTab === "Profile" ? (
-                        <p className="fade-in">Hi! My name is Adhiraj Shrestha.</p>
+                        <p className="fade-in">Hi! My name is {userName}.</p>
                     ) : (
                         <div className="fade-in" >
                             <div className="uploads-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -347,6 +372,63 @@ const TeacherProfile = () => {
                     )}
                 </div>
             </div>
+
+            {/* Video Upload Modal */}
+            {showUploadModal && (
+                <div className="modal-overlay">
+                    <div className="upload-modal">
+                        <div className="modal-header">
+                            <h2>Video Details</h2>
+                        </div>
+                        <div className="modal-body">
+                            <div className="form-group">
+                                <label>Title</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter video title"
+                                    value={uploadDetails.title}
+                                    onChange={(e) => setUploadDetails({ ...uploadDetails, title: e.target.value })}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Description</label>
+                                <textarea
+                                    placeholder="Tell us what your video is about"
+                                    value={uploadDetails.description}
+                                    onChange={(e) => setUploadDetails({ ...uploadDetails, description: e.target.value })}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Category</label>
+                                <select
+                                    value={uploadDetails.category}
+                                    onChange={(e) => setUploadDetails({ ...uploadDetails, category: e.target.value })}
+                                >
+                                    {CATEGORIES.map((group) => (
+                                        <optgroup key={group.group} label={group.group}>
+                                            {group.items.map((item) => (
+                                                <option key={item} value={item}>
+                                                    {item}
+                                                </option>
+                                            ))}
+                                        </optgroup>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="cancel-btn" onClick={() => setShowUploadModal(false)}>Cancel</button>
+                            <button
+                                className="confirm-btn"
+                                onClick={handleConfirmUpload}
+                                disabled={!uploadDetails.title || !uploadDetails.category}
+                            >
+                                Upload Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

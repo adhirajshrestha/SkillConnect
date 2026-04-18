@@ -25,7 +25,7 @@ const Profile = () => {
                 const res = await fetch("http://localhost:5000/profile", {
                     method: "GET",
                     headers: {
-                        "Authorization": token
+                        "Authorization": `Bearer ${token}`
                     }
                 });
                 const data = await res.json();
@@ -68,7 +68,7 @@ const Profile = () => {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": token
+                            "Authorization": `Bearer ${token}`
                         },
                         body: JSON.stringify({ avatar: base64String })
                     });
@@ -106,6 +106,12 @@ const Profile = () => {
 
     const toggleExplore = () => {
         setIsExploreOpen(!isExploreOpen);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("profileStatus");
+        navigate("/login");
     };
 
     return (
@@ -226,7 +232,7 @@ const Profile = () => {
                     </div>
 
                     <div className="profile-actions-right">
-                        <button className="action-btn" onClick={() => navigate("/App")}>Log out</button>
+                        <button className="action-btn" onClick={handleLogout}>Log out</button>
                         <button className="action-btn">Edit</button>
                     </div>
                 </div>
@@ -253,7 +259,7 @@ const Profile = () => {
                 {/* Content Section */}
                 <div className="profile-content">
                     {activeTab === "Profile" ? (
-                        <p className="fade-in">Hi! My name is Adhiraj Shrestha.</p>
+                        <p className="fade-in">Hi! My name is {userName}.</p>
                     ) : (
                         <p className="fade-in">No certificates to show yet.</p>
                     )}

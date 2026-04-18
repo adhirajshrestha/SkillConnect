@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./App1.css";
+import "./AppTeacher.css";
 import { Search as SearchIcon, Newspaper as NewspaperIcon, ChevronDown as ChevronDown, CircleUserRound as CircleUserIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -102,7 +102,7 @@ const App1 = () => {
 
                 <div className="nav-right">
                     <Link to="/"><span className="Getstarted-btn">Get started</span></Link>
-                    <Link to="/profile"><CircleUserIcon className="CircleUserIcon" /></Link>
+                    <Link to="/TeacherProfile"><CircleUserIcon className="CircleUserIcon" /></Link>
                 </div>
             </div>
 

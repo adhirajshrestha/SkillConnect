@@ -74,7 +74,18 @@ app.post("/signup", async (req, res) => {
 
         await newUser.save();
 
-        res.json({ message: "Signup successful" });
+        // create token (auto-login)
+        const token = jwt.sign(
+            { id: newUser._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" }
+        );
+
+        res.json({
+            message: "Signup successful",
+            token,
+            user: newUser
+        });
 
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -157,7 +168,7 @@ app.post("/api/videos/upload", auth, upload.single("video"), async (req, res) =>
             return res.status(400).json({ message: "No video file provided" });
         }
 
-        const { title, description } = req.body;
+        const { title, description, category } = req.body;
 
         // Upload to Cloudinary using upload_stream
         const uploadStream = cloudinary.uploader.upload_stream(
@@ -174,6 +185,7 @@ app.post("/api/videos/upload", auth, upload.single("video"), async (req, res) =>
                 const newVideo = new Video({
                     title: title || req.file.originalname,
                     description: description || "",
+                    category: category,
                     videoUrl: result.secure_url,
                     cloudinaryId: result.public_id,
                     uploadedBy: req.user.id

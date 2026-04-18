@@ -35,6 +35,12 @@ const Signup = () => {
 
       if (res.ok) {
         alert("Signup successful");
+
+        // store token (auto-login)
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+        }
+
         if (role === "teacher") {
           navigate("/AppTeacher");
         } else {

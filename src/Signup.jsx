@@ -11,7 +11,7 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("student");
+  const [role, setRole] = useState("");
 
   //handle submit
   const handleSubmit = async (e) => {
@@ -58,6 +58,10 @@ const Signup = () => {
 
   const handleGoogleSuccess = (credentialResponse) => {
     console.log("Google Login Success:", credentialResponse);
+    if (!role) {
+      alert("Please select a role (Student or Teacher) before signing up with Google.");
+      return;
+    }
     if (role === "teacher") {
       navigate("/AppTeacher");
     } else {
@@ -139,12 +143,14 @@ const Signup = () => {
                 className="options"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
+                required
               >
+                <option value="" disabled>Select your role</option>
                 <option value="student">Student</option>
                 <option value="teacher">Teacher</option>
               </select>
 
-              <button type="submit" className="signup-btn">Sign Up</button>
+              <button type="submit" className="signup-btn" disabled={!role}>Sign Up</button>
             </form>
 
             <div className="divider">

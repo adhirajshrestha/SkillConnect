@@ -1,10 +1,14 @@
-import React from "react";
-import { useParams, Link } from "react-router-dom";
-import { ChevronLeft, Newspaper as NewspaperIcon } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { ChevronLeft, Newspaper as NewspaperIcon, PlayCircle as PlayIcon } from "lucide-react";
+import { getVideosByCategory } from "./services/videoService";
 import "./App1.css"; // Reuse the same styles for consistency
 
 const CategoryPage = () => {
     const { name } = useParams();
+    const navigate = useNavigate();
+    const [videos, setVideos] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     // Format the name for display (e.g., "music-and-instruments" -> "Music & Instruments")
     const displayName = name
@@ -13,12 +17,21 @@ const CategoryPage = () => {
         .join(" ")
         .replace("And", "&");
 
-    // Sample data for the category (in a real app, you'd fetch this based on the 'name')
-    const categoryCourses = [
-        { title: `${displayName} 101`, desc: `Master the fundamentals of ${displayName} with ease.`, img: "https://images.unsplash.com/photo-1516280440614-37939bbacd81" },
-        { title: `Advanced ${displayName}`, desc: `Take your ${displayName} skills to the next level.`, img: "https://images.unsplash.com/photo-1501504905252-473c47e087f8" },
-        { title: `${displayName} Workshop`, desc: `Hands-on training and projects in ${displayName}.`, img: "https://images.unsplash.com/photo-1454165833222-d1d7d8b13927" },
-    ];
+    useEffect(() => {
+        const fetchVideos = async () => {
+            setLoading(true);
+            try {
+                const data = await getVideosByCategory(name);
+                setVideos(data);
+            } catch (err) {
+                console.error("Failed to fetch videos:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchVideos();
+    }, [name]);
 
     return (
         <div className="home">
@@ -40,18 +53,32 @@ const CategoryPage = () => {
                 </div>
 
                 <div className="main">
-                    <div className="cards">
-                        {categoryCourses.map((course, index) => (
-                            <div className="card" key={index}>
-                                <img src={course.img} alt={course.title} />
-                                <div className="card-body">
-                                    <h4>{course.title}</h4><br />
-                                    <p>{course.desc}</p><br />
-                                    <span><NewspaperIcon className="NewspaperIcon" /> End the course with a certificate</span>
+                    {loading ? (
+                        <p style={{ color: "white" }}>Loading videos...</p>
+                    ) : videos.length === 0 ? (
+                        <p style={{ color: "white", opacity: 0.7 }}>No videos found in this category yet.</p>
+                    ) : (
+                        <div className="cards">
+                            {videos.map((video) => (
+                                <div 
+                                    className="card" 
+                                    key={video._id}
+                                    onClick={() => navigate(`/video/${video._id}`)}
+                                    style={{ cursor: "pointer" }}
+                                >
+                                    <div style={{ position: "relative", height: "150px", backgroundColor: "#333", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <PlayIcon size={48} color="white" />
+                                    </div>
+                                    <div className="card-body">
+                                        <h4>{video.title}</h4><br />
+                                        <p>{video.description || "No description available."}</p><br />
+                                        <span style={{ fontSize: "0.8rem", color: "#888" }}>Uploaded by: {video.uploadedBy?.name || "Unknown"}</span><br/>
+                                        <span><NewspaperIcon className="NewspaperIcon" /> End the course with a certificate</span>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

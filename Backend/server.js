@@ -229,6 +229,27 @@ app.get("/api/videos/user/:userId", async (req, res) => {
     }
 });
 
+// GET VIDEOS BY CATEGORY
+app.get("/api/videos/category/:category", async (req, res) => {
+    try {
+        const { category } = req.params;
+        
+        // Convert slug (e.g., "music-and-instruments") back to regex pattern
+        // "music-and-instruments" -> "music.*instruments" or similar
+        const pattern = category
+            .replace(/-and-/g, " & ") // Handle the "and" to "&" specifically
+            .replace(/-/g, " ");      // Replace remaining dashes with spaces
+        
+        const videos = await Video.find({ 
+            category: { $regex: new RegExp("^" + pattern + "$", "i") } 
+        }).populate("uploadedBy", "name email avatar");
+        
+        res.json(videos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // GET SINGLE VIDEO BY ID
 app.get("/api/videos/:id", async (req, res) => {
     try {

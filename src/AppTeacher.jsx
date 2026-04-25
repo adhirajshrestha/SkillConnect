@@ -110,15 +110,27 @@ const App1 = () => {
 
                 {/* Sidebar */}
                 <div className="sidebar">
-                    <p>Music & instruments</p><br />
-                    <p>ART & Illustration</p><br />
-                    <p>Mathematics</p><br />
-                    <p>Film & Video</p><br />
-                    <p>Business & Marketing</p><br />
-                    <p>Photography</p><br />
-                    <p>Productivity</p><br />
-                    <p>Home & Lifestyles</p><br />
-                    <p>Plants and Care</p>
+                    {[
+                        "Music & instruments",
+                        "ART & Illustration",
+                        "Mathematics",
+                        "Film & Video",
+                        "Business & Marketing",
+                        "Photography",
+                        "Productivity",
+                        "Home & Lifestyles",
+                        "Plants and Care"
+                    ].map((cat) => (
+                        <React.Fragment key={cat}>
+                            <Link 
+                                to={`/category/${cat.toLowerCase().replace(/ & /g, "-and-").replace(/ /g, "-")}`}
+                                style={{ textDecoration: 'none', color: 'inherit' }}
+                            >
+                                <p>{cat}</p>
+                            </Link>
+                            <br />
+                        </React.Fragment>
+                    ))}
                 </div>
 
                 {/* Main */}

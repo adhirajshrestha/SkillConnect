@@ -120,7 +120,7 @@ const App = () => {
             "Plants and Care"
           ].map((cat) => (
             <React.Fragment key={cat}>
-              <Link 
+              <Link
                 to={`/category/${cat.toLowerCase().replace(/ & /g, "-and-").replace(/ /g, "-")}`}
                 style={{ textDecoration: 'none', color: 'inherit' }}
               >

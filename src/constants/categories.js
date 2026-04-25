@@ -44,7 +44,9 @@ export const CATEGORIES = [
             "Time Management",
             "Critical Thinking",
             "Emotional Intelligence",
-            "Career Development"
+            "Career Development",
+            "Home & Lifestyles"
+
         ]
     }
 ];

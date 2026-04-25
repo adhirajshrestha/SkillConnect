@@ -33,6 +33,17 @@ export const getVideosByUser = async (userId) => {
     }
 };
 
+// Fetch videos by category
+export const getVideosByCategory = async (category) => {
+    try {
+        const response = await API.get(`/videos/category/${category}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching category videos:", error);
+        throw error;
+    }
+};
+
 // Upload video (assuming user might need this later)
 export const uploadVideo = async (formData) => {
     try {

@@ -195,6 +195,9 @@ body {
     max-width: 1100px;
     margin-top: 30px;
     text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .video-category-badge {
@@ -215,12 +218,57 @@ body {
     font-size: 28px;
     font-weight: 700;
     margin: 0 0 10px 0;
+    text-transform: capitalize;
+}
+
+.uploader-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.uploader-icon {
+    opacity: 0.8;
+}
+
+.uploader-name {
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: capitalize;
 }
 
 .video-desc {
     font-size: 18px;
     color: rgba(255, 255, 255, 0.8);
     font-weight: 400;
+}
+
+.video-desc::first-letter {
+    text-transform: uppercase;
+}
+
+.video-details {
+    flex: 1;
+}
+
+.take-test-btn {
+    padding: 12px 24px;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 30px;
+}
+
+.take-test-btn:hover {
+    background-color: white;
+    color: #050a30;
 }
 
 @media (max-width: 900px) {

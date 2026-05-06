@@ -39,12 +39,19 @@ const TeacherProfile = () => {
                 const res = await fetch("http://localhost:5000/profile", {
                     method: "GET",
                     headers: {
-                        "Authorization": `Bearer ${token}`
-                    }
+                        "Authorization": `Bearer ${token}`,
+                        "Cache-Control": "no-store"
+                    },
+                    cache: "no-store"
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    if (data.avatar) setAvatarImage(data.avatar);
+                    console.log("Fetched profile data:", data);
+                    if (data.avatar) {
+                        setAvatarImage(data.avatar);
+                    } else {
+                        console.log("No avatar found in backend data.");
+                    }
                     if (data.name) setUserName(data.name);
                     if (data._id) {
                         setUserId(data._id);
@@ -130,7 +137,7 @@ const TeacherProfile = () => {
                 if (!token) return;
 
                 try {
-                    await fetch("http://localhost:5000/profile", {
+                    const res = await fetch("http://localhost:5000/profile", {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
@@ -138,8 +145,19 @@ const TeacherProfile = () => {
                         },
                         body: JSON.stringify({ avatar: base64String })
                     });
+                    
+                    if (!res.ok) {
+                        const errorData = await res.json().catch(() => ({}));
+                        const errorMsg = errorData.message || errorData.error || res.statusText;
+                        console.error("Failed to save avatar to backend:", errorData);
+                        alert(`Failed to save avatar: ${errorMsg}. If it says "Payload Too Large", please restart your backend server to apply the new 50MB limit!`);
+                    } else {
+                        console.log("Avatar successfully saved to backend.");
+                        alert("Profile picture updated and saved permanently! You can now navigate away.");
+                    }
                 } catch (err) {
                     console.error("Failed to upload avatar:", err);
+                    alert("Network error. Could not save avatar.");
                 }
             };
             reader.readAsDataURL(file);

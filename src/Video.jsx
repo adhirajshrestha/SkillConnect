@@ -147,7 +147,7 @@ const Video = () => {
                     <div className="video-details">
                         <span className="video-category-badge">{videoData.category}</span>
                         <h1 className="video-title">{videoData.title}</h1>
-                        
+
                         {videoData.uploadedBy && (
                             <div className="uploader-info">
                                 <CircleUserIcon className="uploader-icon" size={20} />

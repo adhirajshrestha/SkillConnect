@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Search as SearchIcon, X as CloseIcon, Clock as HistoryIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import "./SearchBar.css";
 
 const SearchBar = ({ placeholder = "What's on your mind" }) => {
+    const navigate = useNavigate();
     const [query, setQuery] = useState("");
     const [history, setHistory] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
@@ -33,7 +35,7 @@ const SearchBar = ({ placeholder = "What's on your mind" }) => {
     // Save history to backend
     const saveHistory = async (searchTerm) => {
         if (!searchTerm.trim()) return;
-        
+
         const token = localStorage.getItem("token");
         if (!token) return;
 
@@ -52,24 +54,32 @@ const SearchBar = ({ placeholder = "What's on your mind" }) => {
         }
     };
 
+    const performSearch = (searchTerm) => {
+        if (!searchTerm.trim()) return;
+
+        // Navigate to the new global search page
+        navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+    };
+
     const handleSearch = (e) => {
         if (e.key === "Enter") {
             saveHistory(query);
             setShowDropdown(false);
-            // Add actual search logic here if needed (e.g., navigate to search results)
-            console.log("Searching for:", query);
+            performSearch(query);
         }
     };
 
     const handleIconClick = () => {
         saveHistory(query);
         setShowDropdown(false);
+        performSearch(query);
     };
 
     const handleHistoryClick = (term) => {
         setQuery(term);
         saveHistory(term);
         setShowDropdown(false);
+        performSearch(term);
     };
 
     const deleteHistoryItem = async (e, id) => {
@@ -107,8 +117,8 @@ const SearchBar = ({ placeholder = "What's on your mind" }) => {
 
     return (
         <div className="search-container">
-            <div 
-                className={`Search ${showDropdown ? "active" : ""}`} 
+            <div
+                className={`Search ${showDropdown ? "active" : ""}`}
                 ref={searchRef}
             >
                 <SearchIcon className="SearchIcon" onClick={handleIconClick} />
@@ -131,8 +141,8 @@ const SearchBar = ({ placeholder = "What's on your mind" }) => {
                     <div className="dropdown-header">Recent Searches</div>
                     <ul className="history-list">
                         {history.map((item) => (
-                            <li 
-                                key={item._id} 
+                            <li
+                                key={item._id}
                                 className="history-item"
                                 onClick={() => handleHistoryClick(item.query)}
                             >
@@ -140,9 +150,9 @@ const SearchBar = ({ placeholder = "What's on your mind" }) => {
                                     <HistoryIcon size={14} className="history-icon" />
                                     <span>{item.query}</span>
                                 </div>
-                                <CloseIcon 
-                                    size={14} 
-                                    className="delete-history-btn" 
+                                <CloseIcon
+                                    size={14}
+                                    className="delete-history-btn"
                                     onClick={(e) => deleteHistoryItem(e, item._id)}
                                 />
                             </li>

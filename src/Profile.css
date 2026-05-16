@@ -68,14 +68,6 @@
     letter-spacing: -0.5px;
 }
 
-.profile-status {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 400;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
 .CircleUserIcon {
     width: 30px;
     height: 30px;
@@ -83,22 +75,38 @@
     margin-left: 60px;
 }
 
+.profile-status {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: inline-block;
+    min-width: 200px;
+}
 
 .profile-status:hover {
     color: white;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .profile-status-input {
     font-size: 18px;
-    color: white;
+    color: #ffffff !important;
     background: rgba(255, 255, 255, 0.1);
     border: none;
     border-bottom: 2px solid white;
     outline: none;
-    padding: 5px 10px;
-    border-radius: 4px;
+    padding: 8px 12px;
+    border-radius: 8px;
     width: 350px;
     font-family: inherit;
+}
+
+.profile-status-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
 }
 
 /* Profile Actions (Right Side Buttons) */

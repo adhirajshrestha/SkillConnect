@@ -30,7 +30,7 @@ const App1 = () => {
 
             {/* Navbar */}
             <div className="navbar">
-                <Link to="/App"> <h2 className="logo" > SkillConnect </h2> </Link>
+                <h2 className="logo" > SkillConnect </h2>
 
                 <div className="nav-center">
                     <div className="explore-container">
@@ -120,7 +120,7 @@ const App1 = () => {
                         "Plants and Care"
                     ].map((cat) => (
                         <React.Fragment key={cat}>
-                            <Link 
+                            <Link
                                 to={`/category/${cat.toLowerCase().replace(/ & /g, "-and-").replace(/ /g, "-")}`}
                                 style={{ textDecoration: 'none', color: 'inherit' }}
                             >

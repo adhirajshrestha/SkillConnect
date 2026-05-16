@@ -58,3 +58,13 @@ export const uploadVideo = async (formData) => {
         throw error;
     }
 };
+// Search videos by query
+export const searchVideos = async (query) => {
+    try {
+        const response = await API.get(`/videos/search?q=${encodeURIComponent(query)}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error searching videos:", error);
+        throw error;
+    }
+};

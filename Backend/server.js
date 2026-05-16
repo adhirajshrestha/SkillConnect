@@ -251,6 +251,28 @@ app.get("/api/videos/category/:category", async (req, res) => {
     }
 });
 
+// SEARCH VIDEOS
+app.get("/api/videos/search", async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q) {
+            return res.status(400).json({ message: "Search query is required" });
+        }
+
+        const videos = await Video.find({
+            $or: [
+                { title: { $regex: q, $options: "i" } },
+                { description: { $regex: q, $options: "i" } },
+                { category: { $regex: q, $options: "i" } }
+            ]
+        }).populate("uploadedBy", "name email avatar");
+
+        res.json(videos);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // GET SINGLE VIDEO BY ID
 app.get("/api/videos/:id", async (req, res) => {
     try {

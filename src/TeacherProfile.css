@@ -82,7 +82,7 @@
 
 .profile-status-input {
     font-size: 18px;
-    color: white;
+    color: #ffffff !important;
     background: rgba(255, 255, 255, 0.1);
     border: none;
     border-bottom: 2px solid white;

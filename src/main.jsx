@@ -14,6 +14,7 @@ import Payment from "./Payment";
 import AfterPayment from "./AfterPayment";
 import Video from "./Video";
 import CategoryPage from "./CategoryPage";
+import SearchResults from "./SearchResults";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -35,6 +36,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/video" element={<Video />} />
           <Route path="/video/:id" element={<Video />} />
           <Route path="/category/:name" element={<CategoryPage />} />
+          <Route path="/search" element={<SearchResults />} />
         </Routes>
       </BrowserRouter>
     </GoogleOAuthProvider>

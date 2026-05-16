@@ -217,15 +217,16 @@ const Profile = () => {
                                 <input
                                     type="text"
                                     className="profile-status-input"
-                                    value={status}
+                                    value={status === "Whats on your mind ?" ? "" : status}
                                     onChange={handleStatusChange}
                                     onBlur={handleStatusBlur}
                                     onKeyDown={handleKeyDown}
+                                    placeholder="What's on your mind ?"
                                     autoFocus
                                 />
                             ) : (
                                 <p className="profile-status" onClick={handleStatusClick}>
-                                    {status}
+                                    {status || "What's on your mind ?"}
                                 </p>
                             )}
                         </div>

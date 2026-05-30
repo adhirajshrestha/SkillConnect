@@ -21,30 +21,36 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 5%;
-
+  padding: 30px 8%;
 }
 
 .logo {
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-size: 13px;
-  opacity: 0.8;
+  gap: 16px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .login-nav-btn {
   background: transparent;
-  border: 1px solid white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
-  padding: 6px 18px;
-  border-radius: 20px;
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background 0.3s;
+  text-decoration: none;
+}
+
+.login-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* --- Card Layout --- */
@@ -152,11 +158,11 @@ input {
   color: black;
   width: 100%;
 }
-  
+
 
 .signup-btn {
   background: #050a30;
-  
+  color: black;
   padding: 14px;
   border: none;
   border-radius: 25px;
@@ -192,7 +198,8 @@ input {
 }
 
 .google-btn {
-  display: none; /* Hide old button */
+  display: none;
+  /* Hide old button */
   width: 100%;
   background: white;
   border: 1px solid #ddd;
@@ -224,4 +231,199 @@ input {
   padding: 20px;
   font-size: 12px;
   opacity: 0.5;
+}
+
+/* ── Step 2 teacher form ─────────────────────────── */
+.auth-card--step2 {
+  max-width: 980px;
+}
+
+.step2-header {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.step2-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  color: #1d4ed8;
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.optional-tag {
+  font-weight: 400;
+  text-transform: none;
+  color: #aaa;
+  margin-left: 4px;
+}
+
+.input-valid {
+  border-color: #10b981 !important;
+}
+
+.input-invalid {
+  border-color: #ef4444 !important;
+}
+
+.linkedin-hint {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.hint-valid {
+  color: #10b981;
+}
+
+.hint-invalid {
+  color: #ef4444;
+}
+
+.file-upload-area {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+.file-upload-label {
+  display: block;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 13px;
+  color: #555;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.file-upload-label:hover {
+  border-color: #050a30;
+  background: #f8f8ff;
+}
+
+.file-upload-label--done {
+  border-color: #10b981 !important;
+  background: #f0fdf4;
+  color: #065f46;
+  font-weight: 600;
+}
+
+.file-hint {
+  font-size: 11px;
+  color: #aaa;
+  text-align: center;
+}
+
+/* Step tracker in left panel */
+.step-tracker {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 28px;
+}
+
+.s-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.s-step span {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.s-step p {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.s-step--done span {
+  background: #10b981;
+  color: #fff;
+}
+
+.s-step--active span {
+  background: #fff;
+  color: #050a30;
+}
+
+.s-step--active p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.s-line {
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  min-width: 30px;
+}
+
+.s-line--done {
+  background: #10b981;
+}
+
+/* Password visibility toggle */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 44px;
+  height: 50px;
+  box-sizing: border-box;
+  font-family: inherit;
+  line-height: normal;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.password-toggle-btn:hover {
+  color: #111827;
 }

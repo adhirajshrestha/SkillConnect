@@ -1,5 +1,16 @@
 import API from "../api/axios";
 
+// Fetch live view counts for all videos
+export const getVideoViewStats = async () => {
+    try {
+        const response = await API.get("/videos/view-stats");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching video view stats:", error);
+        throw error;
+    }
+};
+
 // Fetch all videos
 export const getVideos = async () => {
     try {
@@ -7,6 +18,17 @@ export const getVideos = async () => {
         return response.data;
     } catch (error) {
         console.error("Error fetching all videos:", error);
+        throw error;
+    }
+};
+
+// Fetch purchased videos for the logged-in student
+export const getPurchasedVideos = async () => {
+    try {
+        const response = await API.get("/user/purchased-videos");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching purchased videos:", error);
         throw error;
     }
 };
@@ -65,6 +87,17 @@ export const searchVideos = async (query) => {
         return response.data;
     } catch (error) {
         console.error("Error searching videos:", error);
+        throw error;
+    }
+};
+
+// Record video watch
+export const recordVideoWatch = async (id) => {
+    try {
+        const response = await API.post(`/videos/${id}/watch`);
+        return response.data;
+    } catch (error) {
+        console.error("Error recording video watch:", error);
         throw error;
     }
 };

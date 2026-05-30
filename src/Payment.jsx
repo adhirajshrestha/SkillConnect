@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import "./Payment.css";
-import { Search as SearchIcon, ChevronDown as ChevronDown, UserRound as UserIcon, Lock as LockIcon } from "lucide-react";
+import { Lock as LockIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import Navbar from "./components/Navbar";
+
 
 const Payment = () => {
-    const [isExploreOpen, setIsExploreOpen] = useState(false);
 
     const [cardNumber, setCardNumber] = useState("");
     const [expiry, setExpiry] = useState("");
     const [cvc, setCvc] = useState("");
 
-    const toggleExplore = () => {
-        setIsExploreOpen(!isExploreOpen);
-    };
 
     const handleCardNumberChange = (e) => {
         const value = e.target.value.replace(/\D/g, "");
@@ -29,88 +27,60 @@ const Payment = () => {
     };
 
     const handleCvcChange = (e) => {
-        const value = e.target.value.replace(/\D/g, "").substring(0, 4);
+        const value = e.target.value.replace(/\\D/g, "").substring(0, 4);
         setCvc(value);
+    };
+
+    // Dynamic eSewa payment handler
+    const handleEsewaPayment = async (e) => {
+        e.preventDefault();
+        
+        try {
+            const token = localStorage.getItem("token");
+            // Call backend to generate signature and UUID
+            const res = await fetch("http://localhost:5000/api/esewa/initiate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ amount: "500" }) // Base amount for payment
+            });
+            
+            const params = await res.json();
+            if (!res.ok) {
+                alert(params.message || "Failed to initialize payment");
+                return;
+            }
+
+            const path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
+            
+            // Create hidden form dynamically
+            const form = document.createElement("form");
+            form.setAttribute("method", "POST");
+            form.setAttribute("action", path);
+            
+            for (let key in params) {
+                const hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+                form.appendChild(hiddenField);
+            }
+            
+            document.body.appendChild(form);
+            form.submit();
+        } catch (err) {
+            console.error("Payment error:", err);
+            alert("Error connecting to payment server");
+        }
     };
 
     const esewaIconUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRURIPRhKOlMe7cw2N9IzXTwUICDh0EVLvcCw&s";
 
     return (
         <div className="payment-page">
-            {/* Navbar (Based on App1.jsx) */}
-            <div className="navbar">
-                <Link to="/App1"> <h2 className="logo"> SkillConnect </h2> </Link>
-
-                <div className="nav-center">
-                    <div className="explore-container">
-
-
-                        {isExploreOpen && (
-                            <div className="explore-dropdown">
-                                <div className="dropdown-column">
-                                    <h4>Technology & Digital Skills</h4>
-                                    <ul>
-                                        <li>Web Development</li>
-                                        <li>Mobile App Development</li>
-                                        <li>Data Science & Analytics</li>
-                                        <li>AI & Machine Learning</li>
-                                        <li>Cybersecurity</li>
-                                        <li>Cloud Computing</li>
-                                        <li>UI / UX Design</li>
-                                        <li className="view-all">View all</li>
-                                    </ul>
-                                </div>
-                                <div className="dropdown-column">
-                                    <h4>Creative & Design</h4>
-                                    <ul>
-                                        <li>Graphic Design</li>
-                                        <li>Motion Graphics</li>
-                                        <li>Video Editing</li>
-                                        <li>Photography</li>
-                                        <li>Illustration & Digital Art</li>
-                                        <li>3D Design & Animation</li>
-                                        <li>Branding & Visual Identity</li>
-                                        <li className="view-all">View all</li>
-                                    </ul>
-                                </div>
-                                <div className="dropdown-column">
-                                    <h4>Academics & Education</h4>
-                                    <ul>
-                                        <li>Mathematics</li>
-                                        <li>Science (Physics, Chemistry, Biology)</li>
-                                        <li>Computer Science</li>
-                                        <li>Engineering Basics</li>
-                                        <li>Economics</li>
-                                        <li>Exam Preparation</li>
-                                        <li>Research & Writing</li>
-                                        <li className="view-all">View all</li>
-                                    </ul>
-                                </div>
-                                <div className="dropdown-column">
-                                    <h4>Personal Growth</h4>
-                                    <ul>
-                                        <li>Communication Skills</li>
-                                        <li>Public Speaking</li>
-                                        <li>Leadership</li>
-                                        <li>Time Management</li>
-                                        <li>Critical Thinking</li>
-                                        <li>Emotional Intelligence</li>
-                                        <li>Career Development</li>
-                                        <li className="view-all">View all</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-
-
-                </div>
-
-                <div className="nav-right">
-
-                    <Link to="/profile"><UserIcon className="CircleUserIcon" /></Link>
-                </div>
-            </div>
+            <Navbar variant="student-compact" logoTo="reload" />
 
             {/* Payment Content */}
             <div className="payment-content">
@@ -164,8 +134,8 @@ const Payment = () => {
                             </div>
 
                             <div className="esewa-container">
-                                <button className="esewa-btn">
-                                    <img src={esewaIconUrl} alt="eSewa" className="esewa-logo" />
+                                <button onClick={handleEsewaPayment} className="esewa-submit">
+                                    Pay with eSewa
                                 </button>
                             </div>
                         </div>
@@ -189,7 +159,7 @@ const Payment = () => {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 

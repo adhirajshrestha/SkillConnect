@@ -25,6 +25,19 @@ const videoSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
+    googleFormUrl: {
+        type: String,
+        required: false // or true, let's make it optional in schema to prevent breaking existing docs, but we can require it on frontend/upload
+    },
+    watchedBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
+    views: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
     createdAt: {
         type: Date,
         default: Date.now

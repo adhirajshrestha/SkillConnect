@@ -156,6 +156,15 @@ body {
     border-radius: 10px;
 }
 
+.my-classes {
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    color: white;
+    text-decoration: none;
+}
+
 .CircleUserIcon {
     width: 40px;
     height: 40px;
@@ -311,3 +320,655 @@ body {
     text-decoration: none;
     font-weight: bold;
 }
+
+/* Student Watch Section styling */
+.student-watch-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.student-watch-section .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #ffffff;
+}
+
+.student-count-badge {
+    background: rgba(96, 165, 250, 0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.student-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.student-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+}
+
+.student-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(96, 165, 250, 0.4);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.student-avatar-wrapper {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+}
+
+.student-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.student-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+
+.online-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #050a30;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.online-indicator.online {
+    background-color: #10b981;
+    box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.4);
+}
+
+.online-indicator.offline {
+    background-color: #9ca3af;
+    box-shadow: 0 0 0 1px rgba(156, 163, 175, 0.4);
+}
+
+.student-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+}
+
+.student-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.student-email {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.student-role-badge {
+    align-self: flex-start;
+    padding: 2px 8px;
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* Empty State Placeholders */
+.no-students-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 45px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    margin-top: 15px;
+}
+
+.placeholder-icon-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 16px;
+    border-radius: 50%;
+    margin-bottom: 16px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.placeholder-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 6px 0;
+}
+
+.placeholder-subtext {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* ── Teacher uploader row ────────────────────── */
+.uploader-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0 4px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+}
+
+.uploader-info-clickable {
+    cursor: pointer;
+    display: inline-flex;
+    padding: 4px 10px 4px 6px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    width: fit-content;
+}
+
+.uploader-info-clickable:hover {
+    background: rgba(96, 165, 250, 0.1);
+    border-color: rgba(96, 165, 250, 0.3);
+    color: #93c5fd;
+}
+
+.uploader-icon {
+    flex-shrink: 0;
+    color: inherit;
+}
+
+.uploader-name {
+    font-weight: 500;
+    color: inherit;
+}
+
+/* ── STUDENT CARD CLICKABLE & POPUP MODAL ───────────────────────── */
+.student-card {
+    cursor: pointer;
+}
+
+.student-action-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(8px);
+}
+
+.student-action-modal {
+    background: #1a1d2e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    animation: modalScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+@keyframes modalScaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.student-action-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 12px;
+}
+
+.student-action-header h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.student-action-close {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.student-action-close:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.student-action-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 28px;
+    text-align: center;
+    width: 100%;
+}
+
+.student-action-avatar-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 16px;
+}
+
+.student-action-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.student-action-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 32px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+}
+
+.student-action-online {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 16px;
+    height: 16px;
+    border: 3px solid #1a1d2e;
+    border-radius: 50%;
+}
+
+.student-action-online.online {
+    background-color: #10b981;
+    box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.4);
+}
+
+.student-action-online.offline {
+    background-color: #9ca3af;
+    box-shadow: 0 0 0 1px rgba(156, 163, 175, 0.4);
+}
+
+.student-action-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 4px 0;
+}
+
+.student-action-email {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 0 16px 0;
+}
+
+.student-action-status-text {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.student-action-footer {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+}
+
+.student-pass-btn {
+    flex: 1;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #6ee7b7;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.student-pass-btn:hover {
+    background: rgba(16, 185, 129, 0.28);
+    border-color: rgba(16, 185, 129, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.student-fail-btn {
+    flex: 1;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #fca5a5;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.student-fail-btn:hover {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* REVIEWS & RATINGS SYSTEM */
+.reviews-section {
+    margin-top: 40px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.reviews-header {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #f3f4f6;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+@media (min-width: 768px) {
+    .reviews-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Reviews Summary Card */
+.reviews-summary-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.avg-rating-big {
+    font-size: 48px;
+    font-weight: 800;
+    color: #fbbf24;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.avg-rating-stars {
+    font-size: 24px;
+    color: #fbbf24;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+}
+
+.total-reviews-count {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+/* Review Form */
+.review-form-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.review-form-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #f3f4f6;
+}
+
+.star-rating-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.1s ease;
+}
+
+.star-btn:hover {
+    transform: scale(1.15);
+}
+
+.review-textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.review-textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.submit-review-btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.submit-review-btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.submit-review-btn:disabled {
+    background: #4b5563;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Reviews List */
+.reviews-list-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Custom Scrollbar for Reviews */
+.reviews-list-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.reviews-list-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 3px;
+}
+
+.reviews-list-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+}
+
+.review-item-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.review-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reviewer-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #9ca3af;
+}
+
+.review-item-stars {
+    font-size: 14px;
+    color: #fbbf24;
+}
+
+.review-item-comment {
+    font-size: 14px;
+    color: #e5e7eb;
+    line-height: 1.5;
+    margin: 0;
+    word-break: break-word;
+}
+
+.review-item-date {
+    font-size: 11px;
+    color: #6b7280;
+    align-self: flex-end;
+}
+
+.no-reviews-placeholder {
+    text-align: center;
+    padding: 40px;
+    color: #9ca3af;
+    font-size: 14px;
+}
+

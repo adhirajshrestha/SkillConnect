@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import "./Profile.css";
 import "./App1.css"; // Reuse navbar styles
-import { Newspaper as NewspaperIcon, ChevronDown as ChevronDown, CircleUserRound as CircleUserIcon, PlayCircle as PlayIcon } from "lucide-react";
+import { CircleUserRound as CircleUserIcon, PlayCircle as PlayIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import SearchBar from "./components/SearchBar";
+import Navbar from "./components/Navbar";
 import { uploadVideo, getVideosByUser } from "./services/videoService";
 import { CATEGORIES } from "./constants/categories";
+import Toast from "./components/Toast";
 
 const TeacherProfile = () => {
     const navigate = useNavigate();
-    const [isExploreOpen, setIsExploreOpen] = useState(false);
     const [activeTab, setActiveTab] = useState("Profile");
     const [status, setStatus] = useState("Whats on your mind ?");
     const [isEditing, setIsEditing] = useState(false);
@@ -20,10 +20,23 @@ const TeacherProfile = () => {
     const [isUploading, setIsUploading] = useState(false);
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [bio, setBio] = useState("");
+    const [toast, setToast] = useState(null);
+
+    const showToast = useCallback((message, type = "info") => setToast({ message, type }), []);
+    const closeToast = useCallback(() => setToast(null), []);
+
+    // Modal states
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editName, setEditName] = useState("");
+    const [editStatus, setEditStatus] = useState("");
+    const [editBio, setEditBio] = useState("");
+
     const [uploadDetails, setUploadDetails] = useState({
         title: "",
         description: "",
-        category: ""
+        category: "",
+        googleFormUrl: ""
     });
 
     const fileInputRef = useRef(null);
@@ -53,6 +66,8 @@ const TeacherProfile = () => {
                         console.log("No avatar found in backend data.");
                     }
                     if (data.name) setUserName(data.name);
+                    if (data.status) setStatus(data.status);
+                    if (data.bio) setBio(data.bio);
                     if (data._id) {
                         setUserId(data._id);
                         // Fetch user videos
@@ -69,12 +84,6 @@ const TeacherProfile = () => {
         };
 
         fetchProfile();
-
-        // Load local status
-        const localStatus = localStorage.getItem("profileStatus");
-        if (localStatus) {
-            setStatus(localStatus);
-        }
     }, []);
 
     const handleAvatarClick = () => {
@@ -93,7 +102,8 @@ const TeacherProfile = () => {
         setUploadDetails({
             title: file.name.split('.')[0], // Default title to filename
             description: "",
-            category: "Web Development" // Default category
+            category: "Web Development", // Default category
+            googleFormUrl: ""
         });
         setShowUploadModal(true);
     };
@@ -101,23 +111,31 @@ const TeacherProfile = () => {
     const handleConfirmUpload = async () => {
         if (!selectedFile) return;
 
+        const googleFormUrl = uploadDetails.googleFormUrl.trim();
+        const googleFormRegex = /^https?:\/\/(docs\.google\.com\/forms\/|forms\.gle\/)/i;
+        if (!googleFormRegex.test(googleFormUrl)) {
+            showToast("⚠️ Invalid Google Form URL! The link must be a valid Google Form (docs.google.com/forms/... or forms.gle/...)", "error");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("video", selectedFile);
         formData.append("title", uploadDetails.title);
         formData.append("description", uploadDetails.description);
         formData.append("category", uploadDetails.category);
+        formData.append("googleFormUrl", googleFormUrl);
 
         setIsUploading(true);
         setShowUploadModal(false);
 
         try {
             const result = await uploadVideo(formData);
-            alert("Video uploaded successfully!");
+            showToast("🎉 Video uploaded successfully!", "success");
             setUserVideos([...userVideos, result.video]);
             setActiveTab("Uploads");
         } catch (err) {
             console.error("Upload failed:", err);
-            alert("Failed to upload video: " + (err.response?.data?.message || err.message));
+            showToast("Failed to upload video: " + (err.response?.data?.message || err.message), "error");
         } finally {
             setIsUploading(false);
             setSelectedFile(null);
@@ -145,61 +163,75 @@ const TeacherProfile = () => {
                         },
                         body: JSON.stringify({ avatar: base64String })
                     });
-                    
+
                     if (!res.ok) {
                         const errorData = await res.json().catch(() => ({}));
                         const errorMsg = errorData.message || errorData.error || res.statusText;
                         console.error("Failed to save avatar to backend:", errorData);
-                        alert(`Failed to save avatar: ${errorMsg}. If it says "Payload Too Large", please restart your backend server to apply the new 50MB limit!`);
+                        showToast(`Failed to save avatar: ${errorMsg}`, "error");
                     } else {
                         console.log("Avatar successfully saved to backend.");
-                        alert("Profile picture updated and saved permanently! You can now navigate away.");
+                        showToast("Profile picture updated successfully!", "success");
                     }
                 } catch (err) {
                     console.error("Failed to upload avatar:", err);
-                    alert("Network error. Could not save avatar.");
+                    showToast("Network error. Could not save avatar.", "error");
                 }
             };
             reader.readAsDataURL(file);
         }
     };
 
-    const handleStatusClick = () => {
-        setIsEditing(true);
+
+    const handleEditClick = () => {
+        setEditName(userName);
+        setEditStatus(status === "Whats on your mind ?" ? "" : status);
+        setEditBio(bio || `Hi! My name is ${userName}.`);
+        setShowEditModal(true);
     };
 
-    const handleStatusChange = (e) => {
-        setStatus(e.target.value);
-    };
+    const handleSaveEdit = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) return;
 
-    const saveStatusLocally = () => {
-        localStorage.setItem("profileStatus", status);
-    };
+        try {
+            const res = await fetch("http://localhost:5000/profile", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    name: editName,
+                    status: editStatus || "Whats on your mind ?",
+                    bio: editBio
+                })
+            });
 
-    const handleStatusBlur = () => {
-        setIsEditing(false);
-        saveStatusLocally();
-    };
-
-    const handleKeyDown = (e) => {
-        if (e.key === "Enter") {
-            setIsEditing(false);
-            saveStatusLocally();
+            const data = await res.json();
+            if (res.ok) {
+                setUserName(data.name);
+                setStatus(data.status);
+                setBio(data.bio);
+                setShowEditModal(false);
+            } else {
+                showToast(data.message || "Failed to update profile", "error");
+            }
+        } catch (err) {
+            console.error("Error updating profile:", err);
+            showToast("Error updating profile", "error");
         }
-    };
-
-    const toggleExplore = () => {
-        setIsExploreOpen(!isExploreOpen);
     };
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        localStorage.removeItem("profileStatus");
+        localStorage.removeItem("userRole");
         navigate("/login");
     };
 
     return (
         <div className="profile-page">
+            {toast && <Toast message={toast.message} type={toast.type} onClose={closeToast} />}
             {/* Hidden Video Input */}
             <input
                 type="file"
@@ -209,81 +241,7 @@ const TeacherProfile = () => {
                 style={{ display: "none" }}
             />
 
-            {/* Exact Navbar from App1.jsx */}
-            <div className="navbar">
-                <Link to="/AppTeacher"> <h2 className="logo" > SkillConnect </h2> </Link>
-
-                <div className="nav-center">
-                    <div className="explore-container">
-                        <span className={`Explore ${isExploreOpen ? 'active' : ''}`} onClick={toggleExplore}>
-                            Explore <ChevronDown className={`ChevronDown ${isExploreOpen ? 'rotate' : ''}`} />
-                        </span>
-
-                        {isExploreOpen && (
-                            <div className="explore-dropdown">
-                                <div className="dropdown-column">
-                                    <h4>Technology & Digital Skills</h4>
-                                    <ul>
-                                        <li>Web Development</li>
-                                        <li>Mobile App Development</li>
-                                        <li>Data Science & Analytics</li>
-                                        <li>AI & Machine Learning</li>
-                                        <li>Cybersecurity</li>
-                                        <li>Cloud Computing</li>
-                                        <li>UI / UX Design</li>
-                                        <li className="view-all">View all</li>
-                                    </ul>
-                                </div>
-                                <div className="dropdown-column">
-                                    <h4>Creative & Design</h4>
-                                    <ul>
-                                        <li>Graphic Design</li>
-                                        <li>Motion Graphics</li>
-                                        <li>Video Editing</li>
-                                        <li>Photography</li>
-                                        <li>Illustration & Digital Art</li>
-                                        <li>3D Design & Animation</li>
-                                        <li>Branding & Visual Identity</li>
-                                        <li className="view-all">View all</li>
-                                    </ul>
-                                </div>
-                                <div className="dropdown-column">
-                                    <h4>Academics & Education</h4>
-                                    <ul>
-                                        <li>Mathematics</li>
-                                        <li>Science (Physics, Chemistry, Biology)</li>
-                                        <li>Computer Science</li>
-                                        <li>Engineering Basics</li>
-                                        <li>Economics</li>
-                                        <li>Exam Preparation</li>
-                                        <li>Research & Writing</li>
-                                        <li className="view-all">View all</li>
-                                    </ul>
-                                </div>
-                                <div className="dropdown-column">
-                                    <h4>Personal Growth</h4>
-                                    <ul>
-                                        <li>Communication Skills</li>
-                                        <li>Public Speaking</li>
-                                        <li>Leadership</li>
-                                        <li>Time Management</li>
-                                        <li>Critical Thinking</li>
-                                        <li>Emotional Intelligence</li>
-                                        <li>Career Development</li>
-                                        <li className="view-all">View all</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <SearchBar />
-
-                <div className="nav-right">
-                    <Link to="/"><span className="Getstarted-btn">Get started</span></Link>
-                    <Link to="/TeacherProfile"><CircleUserIcon className="CircleUserIcon" /></Link>
-                </div>
-            </div>
+            <Navbar variant="teacher" logoTo="reload" />
 
             {/* Profile Header Section */}
             <div className="profile-container">
@@ -305,22 +263,9 @@ const TeacherProfile = () => {
                         </div>
                         <div className="profile-details">
                             <h1 className="profile-name">{userName}</h1>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    className="profile-status-input"
-                                    value={status === "Whats on your mind ?" ? "" : status}
-                                    onChange={handleStatusChange}
-                                    onBlur={handleStatusBlur}
-                                    onKeyDown={handleKeyDown}
-                                    placeholder="What's on your mind ?"
-                                    autoFocus
-                                />
-                            ) : (
-                                <p className="profile-status" onClick={handleStatusClick}>
-                                    {status || "What's on your mind ?"}
-                                </p>
-                            )}
+                            <p className="profile-status">
+                                {status || "What's on your mind ?"}
+                            </p>
                         </div>
                     </div>
 
@@ -329,6 +274,7 @@ const TeacherProfile = () => {
                         <button className="action-btn" onClick={handleVideoClick} disabled={isUploading}>
                             {isUploading ? "Uploading..." : "Upload Video"}
                         </button>
+                        <button className="action-btn" onClick={handleEditClick}>Edit</button>
                     </div>
                 </div>
 
@@ -354,7 +300,7 @@ const TeacherProfile = () => {
                 {/* Content Section */}
                 <div className="profile-content">
                     {activeTab === "Profile" ? (
-                        <p className="fade-in">Hi! My name is {userName}.</p>
+                        <p className="fade-in">{bio || `Hi! My name is ${userName}.`}</p>
                     ) : (
                         <div className="fade-in" >
                             <div className="uploads-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -373,10 +319,15 @@ const TeacherProfile = () => {
                                             <div
                                                 key={video._id}
                                                 className="video-item"
-                                                onClick={() => navigate(`/video/${video._id}`)}
+                                                onClick={() => navigate(`/teacher-video/${video._id}`)}
                                             >
                                                 <div className="video-thumbnail-placeholder">
                                                     <PlayIcon size={40} color="white" />
+                                                    {video.totalReviews > 0 && (
+                                                        <div className="video-rating-badge">
+                                                            ★ {video.averageRating} ({video.totalReviews})
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div className="video-item-info">
                                                     <h4>{video.title}</h4>
@@ -434,16 +385,101 @@ const TeacherProfile = () => {
                                     ))}
                                 </select>
                             </div>
+                            <div className="form-group">
+                                <label>Google Form URL (Test Link) *</label>
+                                <input
+                                    type="url"
+                                    placeholder="https://docs.google.com/forms/d/.../viewform"
+                                    value={uploadDetails.googleFormUrl}
+                                    onChange={(e) => setUploadDetails({ ...uploadDetails, googleFormUrl: e.target.value })}
+                                    required
+                                />
+                                {uploadDetails.googleFormUrl && (
+                                    <span style={{
+                                        fontSize: "12px",
+                                        marginTop: "4px",
+                                        fontWeight: "500",
+                                        color: /^https?:\/\/(docs\.google\.com\/forms\/|forms\.gle\/)/i.test(uploadDetails.googleFormUrl) ? "#10b981" : "#ef4444"
+                                    }}>
+                                        {/^https?:\/\/(docs\.google\.com\/forms\/|forms\.gle\/)/i.test(uploadDetails.googleFormUrl)
+                                            ? "✅ Valid Google Form Link"
+                                            : "❌ Must be a valid Google Forms URL (e.g. docs.google.com/forms/... or forms.gle/...)"}
+                                    </span>
+                                )}
+                            </div>
                         </div>
                         <div className="modal-footer">
                             <button className="cancel-btn" onClick={() => setShowUploadModal(false)}>Cancel</button>
                             <button
                                 className="confirm-btn"
                                 onClick={handleConfirmUpload}
-                                disabled={!uploadDetails.title || !uploadDetails.category}
+                                disabled={
+                                    !uploadDetails.title ||
+                                    !uploadDetails.category ||
+                                    !uploadDetails.googleFormUrl ||
+                                    !/^https?:\/\/(docs\.google\.com\/forms\/|forms\.gle\/)/i.test(uploadDetails.googleFormUrl.trim())
+                                }
                             >
                                 Upload Now
                             </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit User Modal */}
+            {showEditModal && (
+                <div className="edit-modal-overlay">
+                    <div className="edit-modal-card-wrapper">
+                        <button className="edit-modal-close-btn" onClick={() => setShowEditModal(false)}>×</button>
+                        <div className="edit-modal-card">
+                            <div className="edit-modal-header">
+                                <h2>Edit User</h2>
+                            </div>
+                            <div className="edit-modal-body">
+                                <p className="edit-modal-required-info"><span>*</span> = Required Information</p>
+
+                                <div className="edit-modal-section-title">About</div>
+
+                                <div className="edit-modal-group">
+                                    <label><span>*</span> Nickname</label>
+                                    <input
+                                        type="text"
+                                        value={editName}
+                                        onChange={(e) => setEditName(e.target.value)}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="edit-modal-group">
+                                    <label>What's on your mind ?</label>
+                                    <input
+                                        type="text"
+                                        value={editStatus}
+                                        onChange={(e) => setEditStatus(e.target.value)}
+                                        placeholder="What's on your mind ?"
+                                    />
+                                </div>
+
+                                <div className="edit-modal-group">
+                                    <label>About Me</label>
+                                    <textarea
+                                        value={editBio}
+                                        onChange={(e) => setEditBio(e.target.value)}
+                                        placeholder="Tell us about yourself"
+                                    />
+                                </div>
+                            </div>
+                            <div className="edit-modal-footer">
+                                <button className="edit-modal-cancel" onClick={() => setShowEditModal(false)}>Cancel</button>
+                                <button
+                                    className="edit-modal-save"
+                                    onClick={handleSaveEdit}
+                                    disabled={!editName}
+                                >
+                                    Save
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

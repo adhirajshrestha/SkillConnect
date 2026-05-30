@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ChevronLeft, Newspaper as NewspaperIcon, PlayCircle as PlayIcon } from "lucide-react";
+import { PlayCircle as PlayIcon } from "lucide-react";
+import Navbar from "./components/Navbar";
 import { getVideosByCategory } from "./services/videoService";
 import "./App1.css"; // Reuse the same styles for consistency
+import Toast from "./components/Toast";
+import VideoCardFooter from "./components/VideoCardFooter";
+import { handleStudentVideoClick } from "./utils/videoAccess";
+import { useLiveVideoViews, getDisplayViews } from "./hooks/useLiveVideoViews";
 
 const CategoryPage = () => {
     const { name } = useParams();
     const navigate = useNavigate();
     const [videos, setVideos] = useState([]);
+    const [toast, setToast] = useState(null);
     const [loading, setLoading] = useState(true);
 
     // Format the name for display (e.g., "music-and-instruments" -> "Music & Instruments")
@@ -33,18 +39,12 @@ const CategoryPage = () => {
         fetchVideos();
     }, [name]);
 
+    useLiveVideoViews(setVideos);
+
     return (
         <div className="home">
-            <div className="navbar">
-                <Link to="/App1">
-                    <h2 className="logo">SkillConnect</h2>
-                </Link>
-                <div className="nav-right">
-                    <Link to="/App1" style={{ display: 'flex', alignItems: 'center', gap: '5px', textDecoration: 'none', color: 'white' }}>
-                        <ChevronLeft size={20} /> Back to Home
-                    </Link>
-                </div>
-            </div>
+            {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+            <Navbar variant="minimal" logoTo="reload" backTo="/App1" />
 
             <div className="content" style={{ flexDirection: 'column' }}>
                 <div className="category-header" style={{ marginBottom: '40px' }}>
@@ -63,7 +63,7 @@ const CategoryPage = () => {
                                 <div 
                                     className="card" 
                                     key={video._id}
-                                    onClick={() => navigate(`/video/${video._id}`)}
+                                    onClick={() => handleStudentVideoClick(navigate, video._id, setToast)}
                                     style={{ cursor: "pointer" }}
                                 >
                                     <div style={{ position: "relative", height: "150px", backgroundColor: "#333", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -73,7 +73,7 @@ const CategoryPage = () => {
                                         <h4>{video.title}</h4><br />
                                         <p>{video.description || "No description available."}</p><br />
                                         <span style={{ fontSize: "0.8rem", color: "#888" }}>Uploaded by: {video.uploadedBy?.name || "Unknown"}</span><br/>
-                                        <span><NewspaperIcon className="NewspaperIcon" /> End the course with a certificate</span>
+                                        <VideoCardFooter views={getDisplayViews(video)} />
                                     </div>
                                 </div>
                             ))}

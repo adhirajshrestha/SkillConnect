@@ -168,14 +168,9 @@ body {
 }
 
 .nav-right {
-    margin-left: 10px;
-    padding: 8px 15px;
-    border: none;
-    cursor: pointer;
-
-
-
-
+    display: flex;
+    align-items: center;
+    gap: 24px;
 }
 
 .Getstarted-btn {
@@ -190,6 +185,15 @@ body {
 .Getstarted-btn:hover {
     background: transparent;
     color: inherit;
+}
+
+.my-classes {
+    font-size: 21px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    color: white;
+    text-decoration: none;
 }
 
 .CircleUserIcon {

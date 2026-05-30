@@ -17,43 +17,48 @@ html {
 /* Main container becomes the full-page background.
   The linear-gradient creates the deep blue effect.
 */
-.login-page-container {
-
+.page-wrapper {
   min-height: 100vh;
   width: 100%;
   color: #ffffff;
   display: flex;
   flex-direction: column;
-  padding: 0 8%;
-  /* Add horizontal padding for content */
-  background-attachment: fixed;
+  overflow-x: hidden;
 }
 
-/* --- Navbar --- */
-.navbar {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30px 0;
+  padding: 30px 8%;
 }
 
-.navbar-logo {
+.logo {
   font-size: 24px;
   font-weight: 700;
 }
 
-.navbar-signup-btn {
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.signup-nav-btn {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
+  color: white;
   padding: 10px 24px;
   border-radius: 30px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s;
+  text-decoration: none;
 }
 
-.navbar-signup-btn:hover {
+.signup-nav-btn:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
@@ -64,7 +69,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 50px;
+  padding: 0 8% 50px 8%;
 }
 
 /* --- Left Hero Section --- */
@@ -181,13 +186,15 @@ html {
 /* --- Form Styles --- */
 .form-group {
   margin-bottom: 24px;
+  color: black;
+
 }
 
-.form-group label {
+.login-card .form-group label {
   display: block;
   font-weight: 700;
   margin-bottom: 8px;
-  color: black;
+  color: #000000 !important;
   text-transform: uppercase;
   font-size: 14px;
 }
@@ -215,13 +222,43 @@ input[type="password"],
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s;
-  color: black !important;
+  color: #111 !important;
   background-color: white !important;
+  -webkit-text-fill-color: #111 !important;
 }
 
 input:focus {
   outline: none;
   border-color: #2563eb;
+}
+
+/* Password visibility toggle */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 44px;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.password-toggle-btn:hover {
+  color: #111827;
 }
 
 .login-btn {
@@ -295,4 +332,31 @@ input:focus {
   margin-top: 24px;
   color: #6b7280;
   font-size: 14px;
+}
+
+/* Divider & Google styles */
+.divider {
+  margin: 25px 0;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+
+.divider span {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 0 10px;
+  font-size: 10px;
+  color: #999;
+}
+
+.google-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }

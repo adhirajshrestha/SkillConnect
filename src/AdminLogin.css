@@ -1,0 +1,56 @@
+/* ── AdminLogin.css ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.al-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Inter', sans-serif; padding: 20px;
+}
+
+.al-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 24px; padding: 48px 40px;
+  max-width: 420px; width: 100%; text-align: center;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+
+.al-shield { font-size: 48px; margin-bottom: 16px; }
+
+.al-title {
+  font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 6px;
+}
+.al-subtitle { font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 32px; }
+
+.al-error {
+  background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4);
+  color: #fca5a5; border-radius: 8px; padding: 12px; margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.al-form { display: flex; flex-direction: column; gap: 18px; }
+
+.al-field { display: flex; flex-direction: column; gap: 6px; text-align: left; }
+.al-field label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.5px; }
+.al-field input {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px; padding: 13px 16px; color: #fff; font-size: 14px;
+  outline: none; transition: border-color 0.2s;
+}
+.al-field input::placeholder { color: rgba(255,255,255,0.3); }
+.al-field input:focus { border-color: rgba(99,102,241,0.7); }
+
+.al-btn {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff; border: none; border-radius: 12px;
+  padding: 14px; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: opacity 0.2s; margin-top: 8px;
+}
+.al-btn:hover:not(:disabled) { opacity: 0.85; }
+.al-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.al-note { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 24px; line-height: 1.5; }

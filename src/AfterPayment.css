@@ -181,18 +181,6 @@ body {
     color: white;
 }
 
-.SettingsIcon {
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    color: white;
-    transition: transform 0.3s ease;
-}
-
-.SettingsIcon:hover {
-    transform: rotate(45deg);
-}
-
 .user-icon-container {
     width: 45px;
     height: 45px;
